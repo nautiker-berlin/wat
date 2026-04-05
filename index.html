@@ -1,30 +1,2131 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WAT Klasse 10 – Detailaufgaben: Aktuelle Themen & KI</title>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#1c1917;--ink2:#57534e;--ink3:#a8a29e;
+  --paper:#fafaf9;--paper2:#f5f5f4;--paper3:#e7e5e4;
+  --m1:#0f4c81;--m1l:#dbeafe;--m1m:#1d6bb5;
+  --m2:#166534;--m2l:#dcfce7;--m2m:#16a34a;
+  --m3:#7c2d12;--m3l:#ffedd5;--m3m:#ea580c;
+  --m4:#581c87;--m4l:#f3e8ff;--m4m:#9333ea;
+  --m5:#0f4c81;--m5l:#e0f2fe;--m5m:#0284c7;  /* KI */
+  --m6:#14532d;--m6l:#f0fdf4;--m6m:#15803d;  /* Energie detail */
+  --m7:#7f1d1d;--m7l:#fef2f2;--m7m:#b91c1c;  /* Arbeitswelt */
+  --m8:#3b0764;--m8l:#faf5ff;--m8m:#7e22ce;  /* Konsum detail */
+  --ok:#16a34a;--okl:#dcfce7;
+  --err:#dc2626;--errl:#fee2e2;
+  --warn:#d97706;--warnl:#fef3c7;
+  --bdr:rgba(0,0,0,.1);--bdr2:rgba(0,0,0,.06);
+  --r:10px;--shad:0 1px 3px rgba(0,0,0,.07),0 4px 16px rgba(0,0,0,.06);
+  --shad-lg:0 4px 6px rgba(0,0,0,.07),0 10px 40px rgba(0,0,0,.1);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Sora',sans-serif;background:var(--paper2);color:var(--ink);min-height:100vh;line-height:1.6}
+#app{display:flex;min-height:100vh}
+
+/* ── SIDEBAR ── */
+#sb{width:272px;min-width:272px;background:var(--ink);display:flex;flex-direction:column;position:sticky;top:0;height:100vh;overflow-y:auto;z-index:20;scrollbar-width:thin;scrollbar-color:rgba(255,255,255,.15) transparent}
+#sb::-webkit-scrollbar{width:4px}
+#sb::-webkit-scrollbar-thumb{background:rgba(255,255,255,.15);border-radius:2px}
+.sb-brand{padding:22px 18px 16px;border-bottom:1px solid rgba(255,255,255,.08)}
+.sb-brand .eyebrow{font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:5px}
+.sb-brand h1{font-size:15px;font-weight:700;color:#fff;line-height:1.35}
+.sb-brand .sub{font-size:11.5px;color:rgba(255,255,255,.4);margin-top:3px}
+.sb-prog{padding:12px 18px;border-bottom:1px solid rgba(255,255,255,.08)}
+.sb-prog .pl{font-size:10px;color:rgba(255,255,255,.35);text-transform:uppercase;letter-spacing:.07em;margin-bottom:5px}
+.sb-prog .pb{height:3px;background:rgba(255,255,255,.1);border-radius:2px;overflow:hidden}
+.sb-prog .pf{height:100%;background:linear-gradient(90deg,#60a5fa,#34d399);border-radius:2px;transition:width .4s}
+.sb-prog .pc{font-size:11px;color:rgba(255,255,255,.4);margin-top:5px}
+.sb-sec{padding:14px 18px 4px;font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.28)}
+.sb-item{display:flex;align-items:center;gap:9px;padding:9px 18px;cursor:pointer;font-size:12.5px;color:rgba(255,255,255,.55);border-left:3px solid transparent;transition:all .14s;text-decoration:none}
+.sb-item:hover{background:rgba(255,255,255,.06);color:rgba(255,255,255,.9)}
+.sb-item.act{background:rgba(255,255,255,.08);color:#fff;border-left-color:#60a5fa}
+.sb-item.done{color:rgba(255,255,255,.7)}
+.sb-item.done .sd{background:#34d399;color:var(--ink)}
+.sd{width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0;background:rgba(255,255,255,.1);color:#fff}
+.sb-item.act .sd{background:#60a5fa;color:var(--ink)}
+
+/* ── MAIN ── */
+#main{flex:1;overflow-y:auto;background:var(--paper2)}
+.page{display:none}.page.active{display:block}
+
+/* ── HOME HERO ── */
+.hh{background:linear-gradient(135deg,#0f172a 0%,#1e3a5f 60%,#0f4c81 100%);padding:52px 44px 40px;color:#fff;position:relative;overflow:hidden}
+.hh::before{content:'';position:absolute;right:-80px;bottom:-80px;width:400px;height:400px;border-radius:50%;background:rgba(96,165,250,.06);pointer-events:none}
+.hh .ey{font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.4);margin-bottom:9px}
+.hh h2{font-family:'Lora',serif;font-size:36px;line-height:1.2;font-weight:600;max-width:580px}
+.hh p{font-size:15px;color:rgba(255,255,255,.7);max-width:560px;margin-top:12px;line-height:1.7}
+.hh .htags{display:flex;gap:8px;flex-wrap:wrap;margin-top:18px}
+.hh .htag{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.14);border-radius:20px;padding:5px 13px;font-size:11.5px;color:rgba(255,255,255,.8)}
+.hbody{padding:36px 44px 56px;max-width:940px}
+.hbody h3{font-family:'Lora',serif;font-size:20px;color:var(--ink);margin-bottom:16px;font-weight:600}
+.mod-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-bottom:28px}
+.mc{background:#fff;border-radius:11px;border:1px solid var(--bdr);padding:20px 22px;cursor:pointer;transition:all .18s;box-shadow:var(--shad)}
+.mc:hover{transform:translateY(-2px);box-shadow:var(--shad-lg)}
+.mc .mcn{font-size:10.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-bottom:8px}
+.mc .mct{font-size:16px;font-weight:600;color:var(--ink);margin-bottom:7px;line-height:1.3}
+.mc .mcd{font-size:12.5px;color:var(--ink2);line-height:1.6}
+.mc .mcm{display:flex;gap:7px;margin-top:12px;flex-wrap:wrap}
+.mcb{font-size:11px;font-weight:600;border-radius:20px;padding:3px 10px}
+.notice{background:#fff;border:1px solid var(--bdr);border-radius:10px;padding:18px 22px;display:flex;gap:13px;align-items:flex-start;margin-top:4px}
+.notice .ni{font-size:20px;flex-shrink:0;margin-top:2px}
+.notice p{font-size:13.5px;color:var(--ink2);line-height:1.7}
+.notice strong{color:var(--ink)}
+
+/* ── MOD HEADER ── */
+.mhd{padding:32px 44px 24px;border-bottom:1px solid var(--bdr);background:#fff}
+.mhd .mk{font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink3);margin-bottom:7px}
+.mhd h2{font-family:'Lora',serif;font-size:28px;font-weight:600;line-height:1.2}
+.mhd .mm{display:flex;gap:9px;flex-wrap:wrap;margin-top:11px}
+.badge{font-size:11px;font-weight:600;border-radius:20px;padding:3px 10px;display:inline-flex;align-items:center}
+.mbody{padding:28px 44px 56px;max-width:900px}
+
+/* ── FORTSCHRITT ── */
+.fort{background:#fff;border:1px solid var(--bdr);border-radius:9px;padding:16px 20px;margin-bottom:22px;display:flex;align-items:center;gap:14px}
+.fort .fi{font-size:24px;flex-shrink:0}
+.fort .ft{flex:1}
+.fort .ft .fl{font-size:11px;color:var(--ink3);text-transform:uppercase;letter-spacing:.06em;margin-bottom:3px}
+.fort .ft .fv{font-size:14px;font-weight:600;color:var(--ink)}
+.fort .fb2{flex:2}
+.fort .fbar{height:7px;background:var(--paper3);border-radius:4px;overflow:hidden}
+.fort .ffill{height:100%;border-radius:4px;transition:width .4s}
+
+/* ── AUFGABE ── */
+.auf{background:#fff;border-radius:11px;border:1px solid var(--bdr);margin-bottom:22px;box-shadow:var(--shad);overflow:hidden}
+.auf-hd{padding:15px 20px 13px;border-bottom:1px solid var(--bdr);display:flex;align-items:flex-start;gap:13px}
+.auf-num{width:32px;height:32px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;flex-shrink:0;font-family:'Lora',serif}
+.ahr{flex:1}
+.ahr .at{font-size:10px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--ink3);margin-bottom:3px}
+.ahr .atit{font-size:15.5px;font-weight:600;color:var(--ink);line-height:1.4}
+.auf-body{padding:18px 20px}
+.auf-body p{font-size:14px;color:var(--ink2);line-height:1.78;margin-bottom:11px}
+.auf-body p:last-child{margin-bottom:0}
+.auf-body strong{color:var(--ink)}
+
+/* ── TEXT BOXES ── */
+.ctx{background:var(--paper2);border:1px solid var(--bdr);border-radius:7px;padding:14px 16px;margin:11px 0 15px;font-size:13.5px;color:var(--ink2);line-height:1.72}
+.ctx .ctl{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--ink3);margin-bottom:5px}
+.ctx.sc{border-left:3px solid var(--warn);background:var(--warnl)}
+.ctx.sc .ctl{color:var(--warn)}
+.ctx.tip{border-left:3px solid #0ea5e9;background:#f0f9ff}
+.ctx.tip .ctl{color:#0369a1}
+.ctx.stat{border-left:3px solid var(--m5m);background:var(--m5l)}
+.ctx.stat .ctl{color:var(--m5m)}
+.ctx.danger{border-left:3px solid var(--err);background:var(--errl)}
+.ctx.danger .ctl{color:var(--err)}
+.ctx.gruen{border-left:3px solid var(--ok);background:var(--okl)}
+.ctx.gruen .ctl{color:var(--ok)}
+
+/* ── INPUTS ── */
+textarea.ans{width:100%;min-height:96px;padding:11px 13px;border:1.5px solid var(--bdr);border-radius:7px;font-size:13.5px;font-family:'Sora',sans-serif;color:var(--ink);background:var(--paper2);resize:vertical;line-height:1.72;transition:border-color .2s,background .2s}
+textarea.ans:focus{outline:none;border-color:#60a5fa;background:#eff6ff}
+textarea.ans.sm{min-height:72px}
+textarea.ans.lg{min-height:130px}
+input.ti{width:100%;padding:9px 13px;border:1.5px solid var(--bdr);border-radius:7px;font-size:13.5px;font-family:'Sora',sans-serif;color:var(--ink);background:var(--paper2);transition:all .2s}
+input.ti:focus{outline:none;border-color:#60a5fa;background:#eff6ff}
+.il{font-size:12.5px;font-weight:600;color:var(--ink);margin-bottom:5px;margin-top:13px;display:block}
+.ih{font-size:11.5px;color:var(--ink3);margin-top:4px;font-style:italic}
+
+/* ── SLIDER ── */
+.sw{margin:12px 0}
+.slr{display:flex;justify-content:space-between;align-items:center;margin-bottom:7px}
+.slr .sn{font-size:13.5px;font-weight:500;color:var(--ink)}
+.slr .sv{font-size:15px;font-weight:700;min-width:36px;text-align:right}
+input[type=range]{width:100%;height:5px;border-radius:3px;appearance:none;outline:none;cursor:pointer}
+input[type=range]::-webkit-slider-thumb{appearance:none;width:18px;height:18px;border-radius:50%;cursor:pointer;border:3px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.2)}
+.se{display:flex;justify-content:space-between;font-size:11px;color:var(--ink3);margin-top:3px}
+
+/* ── CHOICE ── */
+.cg{display:grid;grid-template-columns:repeat(2,1fr);gap:9px;margin:12px 0}
+.cg.col3{grid-template-columns:repeat(3,1fr)}
+.cg.col1{grid-template-columns:1fr}
+.cb{padding:11px 13px;border-radius:7px;border:1.5px solid var(--bdr);background:var(--paper2);cursor:pointer;font-size:13.5px;font-family:'Sora',sans-serif;color:var(--ink2);text-align:left;transition:all .14s;line-height:1.5}
+.cb:hover{border-color:#60a5fa;color:var(--ink);background:#eff6ff}
+.cb.sel{border-color:#2563eb;background:#dbeafe;color:#1e40af;font-weight:500}
+
+/* ── PROCON ── */
+.pc{display:grid;grid-template-columns:1fr 1fr;gap:11px;margin:12px 0}
+.pcc{border-radius:8px;padding:13px}
+.pcc .pch{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:9px;display:flex;align-items:center;gap:6px}
+.pcc textarea{width:100%;min-height:110px;padding:9px;border:1.5px solid var(--bdr);border-radius:7px;font-size:13px;font-family:'Sora',sans-serif;color:var(--ink);resize:vertical;line-height:1.65;background:#fff}
+.pcc textarea:focus{outline:none}
+
+/* ── TABLE INPUT ── */
+table.ti-tbl{width:100%;border-collapse:collapse;margin:12px 0;font-size:13px}
+.ti-tbl th{background:var(--paper3);padding:8px 11px;border:1px solid var(--bdr);font-weight:600;color:var(--ink);text-align:left;font-size:12px}
+.ti-tbl td{padding:7px 11px;border:1px solid var(--bdr);vertical-align:top}
+.ti-tbl td.hc{background:var(--paper3);font-weight:600;font-size:12.5px;color:var(--ink2)}
+.ti-tbl td textarea,.ti-tbl td input{width:100%;border:none;background:transparent;font-family:'Sora',sans-serif;font-size:12.5px;color:var(--ink);resize:none;outline:none;min-height:26px;padding:2px 0}
+
+/* ── RANK ── */
+.rl{display:flex;flex-direction:column;gap:7px;margin:12px 0}
+.ri{display:flex;align-items:center;gap:11px;padding:10px 13px;background:var(--paper2);border:1.5px solid var(--bdr);border-radius:7px;cursor:grab;font-size:13.5px;transition:all .13s;user-select:none}
+.ri:active{cursor:grabbing}
+.ri.drag-over{border-color:#60a5fa;background:#eff6ff}
+.rh{color:var(--ink3);font-size:15px;flex-shrink:0}
+.rp{width:24px;height:24px;border-radius:50%;background:var(--ink);color:#fff;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0}
+
+/* ── BUDGET / CALC ── */
+.calc-box{background:var(--paper2);border:1px solid var(--bdr);border-radius:9px;padding:18px;margin:12px 0}
+.brow{display:flex;align-items:center;gap:9px;margin-bottom:7px;flex-wrap:wrap}
+.brow .bc{font-size:13px;color:var(--ink2);min-width:180px}
+.brow input[type=number]{width:110px;padding:7px 9px;border:1.5px solid var(--bdr);border-radius:6px;font-family:'Sora',sans-serif;font-size:13.5px;color:var(--ink);background:#fff;text-align:right}
+.brow input:focus{outline:none;border-color:#60a5fa}
+.btotal{font-size:14px;font-weight:700;padding:11px 13px;border-radius:7px;margin-top:7px}
+.calc-result{background:#fff;border-radius:7px;border:1px solid var(--bdr);padding:13px 15px;margin-top:11px;font-size:13.5px;line-height:1.85}
+
+/* ── SCENARIO BOX ── */
+.scenario-wrap{background:linear-gradient(135deg,#f8fafc,#fff);border:1px solid rgba(0,0,0,.08);border-radius:9px;padding:18px;margin:11px 0}
+.scenario-wrap .stag{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;margin-bottom:7px;display:flex;align-items:center;gap:5px}
+
+/* ── ABGABE ── */
+.abg{border-radius:11px;padding:22px 26px;margin-top:28px}
+.abg h3{font-family:'Lora',serif;font-size:19px;margin-bottom:7px;color:#fff}
+.abg p{font-size:13.5px;color:rgba(255,255,255,.65);margin-bottom:14px;line-height:1.6}
+.abg-row{display:flex;gap:9px;flex-wrap:wrap;align-items:center}
+input.ni{padding:9px 13px;border-radius:7px;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.08);color:#fff;font-family:'Sora',sans-serif;font-size:13.5px;min-width:180px}
+input.ni::placeholder{color:rgba(255,255,255,.35)}
+input.ni:focus{outline:none;border-color:#60a5fa}
+
+/* ── BUTTONS ── */
+.btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:7px;font-size:13.5px;font-weight:600;cursor:pointer;border:none;transition:all .14s;font-family:'Sora',sans-serif}
+.btn-dark{background:var(--ink);color:#fff}.btn-dark:hover{background:#374151}
+.btn-out{background:transparent;border:1.5px solid var(--bdr);color:var(--ink2)}.btn-out:hover{border-color:var(--ink);color:var(--ink)}
+.btn-print{background:#2563eb;color:#fff}.btn-print:hover{background:#1d4ed8}
+.btn-sm{padding:5px 13px;font-size:12.5px}
+
+/* ── SPECIALS ── */
+.ki-highlight{background:linear-gradient(135deg,#dbeafe,#ede9fe);border:1px solid rgba(96,165,250,.3);border-radius:8px;padding:14px 16px;margin:12px 0;font-size:13.5px;color:var(--ink2);line-height:1.72}
+.ki-highlight .khl{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:#4338ca;margin-bottom:5px}
+.data-vis{background:var(--paper3);border-radius:8px;padding:14px;margin:12px 0}
+.bar-chart{display:flex;flex-direction:column;gap:8px;margin-top:8px}
+.bar-row{display:flex;align-items:center;gap:10px}
+.bar-label{font-size:12px;color:var(--ink2);min-width:120px;flex-shrink:0}
+.bar-track{flex:1;height:20px;background:rgba(0,0,0,.06);border-radius:4px;overflow:hidden;position:relative}
+.bar-fill{height:100%;border-radius:4px;display:flex;align-items:center;justify-content:flex-end;padding-right:6px;font-size:11px;font-weight:700;color:#fff;transition:width .6s}
+.bar-val{font-size:12px;font-weight:600;color:var(--ink);min-width:40px;text-align:right}
+.timeline{display:flex;flex-direction:column;gap:0;margin:12px 0;position:relative;padding-left:28px}
+.timeline::before{content:'';position:absolute;left:10px;top:8px;bottom:8px;width:2px;background:var(--bdr);border-radius:1px}
+.tl-item{position:relative;margin-bottom:14px}
+.tl-item::before{content:'';position:absolute;left:-22px;top:5px;width:10px;height:10px;border-radius:50%;background:var(--m5m);border:2px solid #fff;box-shadow:0 0 0 2px var(--m5m)}
+.tl-item .tl-y{font-size:11px;font-weight:700;color:var(--m5m);margin-bottom:2px}
+.tl-item .tl-t{font-size:13.5px;color:var(--ink2);line-height:1.6}
+.tl-item .tl-t strong{color:var(--ink)}
+.matrix{display:grid;grid-template-columns:1fr 1fr;gap:0;margin:12px 0;border:1px solid var(--bdr);border-radius:8px;overflow:hidden}
+.matrix-cell{padding:14px 16px;font-size:13px;border-right:1px solid var(--bdr);border-bottom:1px solid var(--bdr)}
+.matrix-cell:nth-child(even){border-right:none}
+.matrix-cell:nth-last-child(-n+2){border-bottom:none}
+.matrix-cell .mch{font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:5px}
+.zwei-col{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:12px 0}
+.quiz-mc{display:flex;flex-direction:column;gap:7px;margin:12px 0}
+.quiz-opt{padding:10px 13px;border-radius:7px;border:1.5px solid var(--bdr);background:var(--paper2);cursor:pointer;font-size:13.5px;font-family:'Sora',sans-serif;color:var(--ink2);display:flex;align-items:flex-start;gap:10px;transition:all .14s;line-height:1.5}
+.quiz-opt:hover{border-color:#60a5fa;background:#eff6ff;color:var(--ink)}
+.quiz-opt.correct{background:var(--okl);border-color:var(--ok);color:var(--ok);pointer-events:none}
+.quiz-opt.wrong{background:var(--errl);border-color:var(--err);color:var(--err);pointer-events:none}
+.quiz-opt.dim{opacity:.5;pointer-events:none}
+.quiz-opt .ql{width:20px;height:20px;border-radius:50%;background:#fff;border:1.5px solid var(--bdr);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0;margin-top:1px}
+.quiz-opt.correct .ql{background:var(--ok);color:#fff;border-color:var(--ok)}
+.quiz-opt.wrong .ql{background:var(--err);color:#fff;border-color:var(--err)}
+.qfb{border-radius:7px;padding:10px 13px;margin-top:7px;font-size:13px;display:none;line-height:1.6}
+.qfb.show{display:block}.qfb.ok{background:var(--okl);color:var(--ok)}.qfb.er{background:var(--errl);color:var(--err)}
+.ethik-scale{display:flex;flex-direction:column;gap:14px;margin:12px 0}
+.es-item{background:var(--paper2);border:1px solid var(--bdr);border-radius:8px;padding:14px 16px}
+.es-item .es-q{font-size:13.5px;font-weight:500;color:var(--ink);margin-bottom:10px}
+.progress-dots{display:flex;gap:8px;align-items:center;margin:8px 0}
+.pd{width:28px;height:28px;border-radius:50%;border:2px solid var(--bdr);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:11px;transition:all .15s}
+.pd:hover{border-color:#60a5fa}
+.pd.sel{border-color:currentColor;font-weight:700}
+.pd-label-row{display:flex;justify-content:space-between;font-size:10.5px;color:var(--ink3);margin-top:3px}
+
+/* ── RESP ── */
+@media(max-width:720px){
+  #sb{display:none}
+  .hh,.hbody,.mhd,.mbody{padding-left:18px;padding-right:18px}
+  .mod-grid,.cg,.pc,.zwei-col,.matrix{grid-template-columns:1fr}
+  .hh h2{font-size:24px}
+  .cg.col3{grid-template-columns:1fr}
+}
+@media print{
+  #sb{display:none}
+  #main{overflow:visible}
+  .page{display:block!important;page-break-after:always}
+  .btn,.abg-row{display:none}
+}
+</style>
 </head>
 <body>
-    <header>
-        <h1>Welcome to Nautiker Berlin</h1>
-    </header>
-    <main>
-        <section>
-            <h2>About Us</h2>
-            <p>This is the about us section of the website.</p>
-        </section>
-        <section>
-            <h2>Services</h2>
-            <p>We offer various services related to sailing and water sports.</p>
-        </section>
-        <section>
-            <h2>Contact</h2>
-            <p>If you have any inquiries, please reach out via our contact form.</p>
-        </section>
-    </main>
-    <footer>
-        <p>&copy; 2026 Nautiker Berlin</p>
-    </footer>
+<div id="app">
+
+<!-- SIDEBAR -->
+<nav id="sb">
+  <div class="sb-brand">
+    <div class="eyebrow">WAT · Klasse 10 · Detailaufgaben</div>
+    <h1>Aktuelle Themen &amp; KI</h1>
+    <div class="sub">8 Themenmodule · Brandenburg</div>
+  </div>
+  <div class="sb-prog">
+    <div class="pl">Gesamtfortschritt</div>
+    <div class="pb"><div class="pf" id="g-bar" style="width:0%"></div></div>
+    <div class="pc" id="g-count">0 Felder ausgefüllt</div>
+  </div>
+
+  <div class="sb-sec">Start</div>
+  <div class="sb-item act" id="nav-home" onclick="sp('home')"><span class="sd">🏠</span>Startseite</div>
+
+  <div class="sb-sec">Modul A – Künstliche Intelligenz</div>
+  <div class="sb-item" id="nav-a1" onclick="sp('a1')"><span class="sd" style="background:#dbeafe;color:#1d4ed8">A1</span>KI im Alltag</div>
+  <div class="sb-item" id="nav-a2" onclick="sp('a2')"><span class="sd" style="background:#dbeafe;color:#1d4ed8">A2</span>KI &amp; Arbeitswelt</div>
+  <div class="sb-item" id="nav-a3" onclick="sp('a3')"><span class="sd" style="background:#dbeafe;color:#1d4ed8">A3</span>KI-Ethik &amp; Recht</div>
+
+  <div class="sb-sec">Modul B – Energie &amp; Klima</div>
+  <div class="sb-item" id="nav-b1" onclick="sp('b1')"><span class="sd" style="background:#dcfce7;color:#166534">B1</span>Energiewende Deutschland</div>
+  <div class="sb-item" id="nav-b2" onclick="sp('b2')"><span class="sd" style="background:#dcfce7;color:#166534">B2</span>Klimapolitik &amp; Konflikte</div>
+
+  <div class="sb-sec">Modul C – Arbeitswelt &amp; Zukunft</div>
+  <div class="sb-item" id="nav-c1" onclick="sp('c1')"><span class="sd" style="background:#ffedd5;color:#9a3412">C1</span>Zukunft der Arbeit</div>
+
+  <div class="sb-sec">Modul D – Konsum &amp; Gesellschaft</div>
+  <div class="sb-item" id="nav-d1" onclick="sp('d1')"><span class="sd" style="background:#f3e8ff;color:#7e22ce">D1</span>Digitaler Konsum</div>
+  <div class="sb-item" id="nav-d2" onclick="sp('d2')"><span class="sd" style="background:#f3e8ff;color:#7e22ce">D2</span>Globale Lieferketten</div>
+</nav>
+
+<!-- MAIN -->
+<main id="main">
+
+<!-- ████ HOME ████ -->
+<div id="page-home" class="page active">
+  <div class="hh">
+    <div class="ey">WAT Klasse 10 · Detailaufgaben · Brandenburg 2024/25</div>
+    <h2>Aktuelle Themen &amp; Künstliche Intelligenz</h2>
+    <p>Diese Aufgaben vertiefen aktuelle, gesellschaftlich relevante Themen mit besonderem Fokus auf KI, Klimapolitik, die Zukunft der Arbeit und digitalen Konsum. Die Aufgaben erfordern echtes Nachdenken – Antworten, die nur du geben kannst.</p>
+    <div class="htags">
+      <span class="htag">🤖 Künstliche Intelligenz</span>
+      <span class="htag">⚡ Energiepolitik</span>
+      <span class="htag">💼 Zukunft der Arbeit</span>
+      <span class="htag">🛒 Digitaler Konsum</span>
+      <span class="htag">🌍 Klimakonflikte</span>
+      <span class="htag">⚖️ Ethik &amp; Recht</span>
+    </div>
+  </div>
+  <div class="hbody">
+    <h3>Übersicht aller Detailmodule</h3>
+    <div class="mod-grid">
+      <div class="mc" onclick="sp('a1')">
+        <div class="mcn" style="color:var(--m5m)">Modul A1 · KI</div>
+        <div class="mct">Künstliche Intelligenz im Alltag</div>
+        <div class="mcd">Wie funktioniert KI? Wo begegnet sie mir? Was kann sie – und was nicht? Kritische Auseinandersetzung mit Chancen und Grenzen.</div>
+        <div class="mcm"><span class="mcb" style="background:var(--m5l);color:var(--m5m)">8 Aufgaben</span><span class="mcb" style="background:var(--paper3);color:var(--ink2)">~40 Min.</span></div>
+      </div>
+      <div class="mc" onclick="sp('a2')">
+        <div class="mcn" style="color:var(--m5m)">Modul A2 · KI</div>
+        <div class="mct">KI &amp; die Arbeitswelt der Zukunft</div>
+        <div class="mcd">Welche Berufe werden durch KI verändert oder ersetzt? Was bedeutet das für meine Berufswahl? Wie kann ich mich vorbereiten?</div>
+        <div class="mcm"><span class="mcb" style="background:var(--m5l);color:var(--m5m)">7 Aufgaben</span><span class="mcb" style="background:var(--paper3);color:var(--ink2)">~35 Min.</span></div>
+      </div>
+      <div class="mc" onclick="sp('a3')">
+        <div class="mcn" style="color:var(--m5m)">Modul A3 · KI-Ethik</div>
+        <div class="mct">KI-Ethik, Datenschutz &amp; Recht</div>
+        <div class="mcd">Deepfakes, Überwachung, Urheberrecht, Bias in Algorithmen – wo liegen die ethischen Grenzen von KI?</div>
+        <div class="mcm"><span class="mcb" style="background:var(--m5l);color:var(--m5m)">7 Aufgaben</span><span class="mcb" style="background:var(--paper3);color:var(--ink2)">~35 Min.</span></div>
+      </div>
+      <div class="mc" onclick="sp('b1')">
+        <div class="mcn" style="color:var(--m6m)">Modul B1 · Energie</div>
+        <div class="mct">Energiewende Deutschland – Details &amp; Konflikte</div>
+        <div class="mcd">Netzausbau, Kosten der Energiewende, regionale Unterschiede, Wasserstoff – die komplexen Seiten der Energiepolitik.</div>
+        <div class="mcm"><span class="mcb" style="background:var(--m6l);color:var(--m6m)">7 Aufgaben</span><span class="mcb" style="background:var(--paper3);color:var(--ink2)">~35 Min.</span></div>
+      </div>
+      <div class="mc" onclick="sp('b2')">
+        <div class="mcn" style="color:var(--m6m)">Modul B2 · Klima</div>
+        <div class="mct">Klimapolitik &amp; globale Konflikte</div>
+        <div class="mcd">CO₂-Preis, Klimagerechtigkeit, Industrieländer vs. Schwellenländer – wer trägt die Verantwortung?</div>
+        <div class="mcm"><span class="mcb" style="background:var(--m6l);color:var(--m6m)">7 Aufgaben</span><span class="mcb" style="background:var(--paper3);color:var(--ink2)">~35 Min.</span></div>
+      </div>
+      <div class="mc" onclick="sp('c1')">
+        <div class="mcn" style="color:var(--m7m)">Modul C1 · Arbeit</div>
+        <div class="mct">Zukunft der Arbeit: New Work &amp; Mindestlohn</div>
+        <div class="mcd">Homeoffice, Vier-Tage-Woche, Mindestlohn, Fachkräftemangel – wie verändert sich Arbeit in den nächsten 20 Jahren?</div>
+        <div class="mcm"><span class="mcb" style="background:var(--m7l);color:var(--m7m)">8 Aufgaben</span><span class="mcb" style="background:var(--paper3);color:var(--ink2)">~40 Min.</span></div>
+      </div>
+      <div class="mc" onclick="sp('d1')">
+        <div class="mcn" style="color:var(--m8m)">Modul D1 · Konsum</div>
+        <div class="mct">Digitaler Konsum: Abo-Fallen, Algorithmen &amp; Influencer</div>
+        <div class="mcd">Wie beeinflussen Algorithmen meine Kaufentscheidungen? Abo-Fallen, Datenkraken, Influencer-Marketing – kritisch betrachtet.</div>
+        <div class="mcm"><span class="mcb" style="background:var(--m8l);color:var(--m8m)">8 Aufgaben</span><span class="mcb" style="background:var(--paper3);color:var(--ink2)">~40 Min.</span></div>
+      </div>
+      <div class="mc" onclick="sp('d2')">
+        <div class="mcn" style="color:var(--m8m)">Modul D2 · Globalisierung</div>
+        <div class="mct">Globale Lieferketten &amp; Fairer Handel</div>
+        <div class="mcd">Woher kommt mein Handy? Was verdient der Näher meiner Jeans? Lieferkettensorgfaltsgesetz und was es bedeutet.</div>
+        <div class="mcm"><span class="mcb" style="background:var(--m8l);color:var(--m8m)">7 Aufgaben</span><span class="mcb" style="background:var(--paper3);color:var(--ink2)">~35 Min.</span></div>
+      </div>
+    </div>
+    <div class="notice">
+      <span class="ni">🧠</span>
+      <p><strong>Warum diese Aufgaben besonders sind:</strong> Alle Aufgaben hier beziehen sich auf aktuelle Ereignisse, echte Dilemmas und deine persönliche Lebenswelt. Es geht nicht darum, fertige Antworten zu finden – sondern darum, komplexe Themen durchzudenken und eine eigene, begründete Haltung zu entwickeln. Deine Lehrperson kann sehen, ob du wirklich gedacht oder nur etwas abgeschrieben hast.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ████ A1: KI IM ALLTAG ████ -->
+<div id="page-a1" class="page">
+  <div class="mhd">
+    <div class="mk">Modul A1 · Künstliche Intelligenz</div>
+    <h2>Künstliche Intelligenz im Alltag</h2>
+    <div class="mm">
+      <span class="badge" style="background:var(--m5l);color:var(--m5m)">KI &amp; Digitalisierung</span>
+      <span class="badge" style="background:var(--paper3);color:var(--ink2)">8 Aufgaben · ~40 Min.</span>
+    </div>
+  </div>
+  <div class="mbody">
+    <div class="fort"><span class="fi">🤖</span>
+      <div class="ft"><div class="fl">Fortschritt</div><div class="fv" id="a1-fv">0 von 8 Aufgaben</div></div>
+      <div class="fb2"><div class="fbar"><div class="ffill" id="a1-fb" style="width:0%;background:var(--m5m)"></div></div></div>
+    </div>
+
+    <!-- A1.1 -->
+    <div class="auf" id="auf-a1-1">
+      <div class="auf-hd">
+        <div class="auf-num" style="background:var(--m5l);color:var(--m5m)">A1.1</div>
+        <div class="ahr"><div class="at">🔍 Vorwissen &amp; Selbsteinschätzung</div>
+        <div class="atit">Was ist KI – und was glaubst du zu wissen?</div></div>
+      </div>
+      <div class="auf-body">
+        <p>„Künstliche Intelligenz" klingt nach Science-Fiction – aber du nutzt sie wahrscheinlich täglich. Bevor wir einsteigen: Teste dein Vorwissen ehrlich.</p>
+
+        <div class="quiz-mc" id="q-a1-1">
+          <p style="font-weight:600;color:var(--ink);margin-bottom:4px">Was ist der Hauptunterschied zwischen „normaler" Software und KI?</p>
+          <div class="quiz-opt" onclick="checkQ('a1-1','A','B')"><span class="ql">A</span>KI ist immer mit dem Internet verbunden, normale Software nicht.</div>
+          <div class="quiz-opt" onclick="checkQ('a1-1','B','B')"><span class="ql">B</span>KI lernt aus Daten und verbessert sich, normale Software folgt nur festen Regeln.</div>
+          <div class="quiz-opt" onclick="checkQ('a1-1','C','B')"><span class="ql">C</span>KI kann keine Fehler machen, normale Software schon.</div>
+          <div class="quiz-opt" onclick="checkQ('a1-1','D','B')"><span class="ql">D</span>KI wird von Robotern gesteuert, normale Software von Menschen.</div>
+          <div class="qfb" id="qfb-a1-1"></div>
+        </div>
+
+        <label class="il" style="margin-top:16px">Welche KI-Anwendungen nutzt du selbst – bewusst oder unbewusst? Liste mindestens 5 auf und erkläre kurz, was die KI dabei tut:</label>
+        <textarea class="ans" id="a1-1-apps" placeholder="1. Spotify-Empfehlungen: Die KI analysiert, was ich höre, und schlägt ähnliche Songs vor.&#10;2. …&#10;3. …&#10;4. …&#10;5. …" oninput="mf(this,'a1',1)"></textarea>
+
+        <div class="sw" style="margin-top:14px">
+          <div class="slr"><span class="sn">Wie gut verstehe ich, wie KI funktioniert?</span><span class="sv" id="sv-a1-1" style="color:var(--m5m)">5</span></div>
+          <input type="range" min="1" max="10" value="5" id="sl-a1-1" style="accent-color:var(--m5m)" oninput="us('a1-1');mf(this,'a1',1)">
+          <div class="se"><span>Gar nicht</span><span>Sehr gut</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- A1.2 -->
+    <div class="auf" id="auf-a1-2">
+      <div class="auf-hd">
+        <div class="auf-num" style="background:var(--m5l);color:var(--m5m)">A1.2</div>
+        <div class="ahr"><div class="at">📊 Daten &amp; Fakten verstehen</div>
+        <div class="atit">Wie ChatGPT &amp; Co. wirklich funktionieren</div></div>
+      </div>
+      <div class="auf-body">
+        <div class="ki-highlight">
+          <div class="khl">🧠 Hintergrundwissen: Large Language Models (LLMs)</div>
+          ChatGPT, Gemini, Claude und ähnliche KI-Systeme sind sogenannte <strong>Large Language Models (LLMs)</strong>. Sie wurden auf riesigen Textmengen trainiert und lernen statistische Muster: Welches Wort folgt wahrscheinlich auf welches? Sie „verstehen" keine Sprache im menschlichen Sinne – sie berechnen Wahrscheinlichkeiten. Das erklärt, warum sie manchmal überzeugend klingende, aber falsche Antworten geben (<em>„Halluzinationen"</em>). GPT-4 wurde mit schätzungsweise 1 Billion Wörtern trainiert. Das entspricht etwa 1,3 Millionen kompletten Büchern.
+        </div>
+
+        <label class="il">Erkläre mit eigenen Worten, warum eine KI wie ChatGPT manchmal Dinge erfindet, die falsch sind. Was bedeutet „Halluzination" in diesem Kontext?</label>
+        <textarea class="ans" id="a1-2a" placeholder="Eine KI „halluziniert", wenn sie …" oninput="mf(this,'a1',2)"></textarea>
+
+        <label class="il">Welche Konsequenz hat das für dich, wenn du eine KI für Schulaufgaben oder Recherchen nutzt?</label>
+        <textarea class="ans sm" id="a1-2b" placeholder="Das bedeutet für mich konkret, dass ich …" oninput="mf(this,'a1',2)"></textarea>
+
+        <label class="il">Du benutzt ChatGPT für eine Hausaufgabe und erhältst eine sehr überzeugend klingende Antwort mit konkreten Zahlen und Quellenangaben. Was tust du?</label>
+        <div class="cg col3">
+          <div class="cb" id="cb-a1-2-a" onclick="sc('a1-2','a')">Ich gebe die Antwort direkt ab, klingt ja gut</div>
+          <div class="cb" id="cb-a1-2-b" onclick="sc('a1-2','b')">Ich prüfe die Fakten in zuverlässigen Quellen nach</div>
+          <div class="cb" id="cb-a1-2-c" onclick="sc('a1-2','c')">Ich nutze sie als Ausgangspunkt und formuliere selbst um</div>
+        </div>
+        <textarea class="ans sm" id="a1-2c" placeholder="Meine Begründung: Ich würde … tun, weil …" oninput="mf(this,'a1',2)"></textarea>
+      </div>
+    </div>
+
+    <!-- A1.3 -->
+    <div class="auf" id="auf-a1-3">
+      <div class="auf-hd">
+        <div class="auf-num" style="background:var(--m5l);color:var(--m5m)">A1.3</div>
+        <div class="ahr"><div class="at">📈 Datenanalyse</div>
+        <div class="atit">Der rasante Aufstieg der KI – eine Zeitlinie</div></div>
+      </div>
+      <div class="auf-body">
+        <div class="timeline">
+          <div class="tl-item"><div class="tl-y">1956</div><div class="tl-t">Begriff „Künstliche Intelligenz" wird erfunden. Erste einfache Schachprogramme.</div></div>
+          <div class="tl-item"><div class="tl-y">1997</div><div class="tl-t"><strong>Deep Blue</strong> (IBM) besiegt Schachweltmeister Garry Kasparov – erster großer KI-Triumph.</div></div>
+          <div class="tl-item"><div class="tl-y">2011</div><div class="tl-t"><strong>Apple Siri</strong> erscheint – KI-Sprachassistenten kommen in die Taschen aller.</div></div>
+          <div class="tl-item"><div class="tl-y">2016</div><div class="tl-t"><strong>AlphaGo</strong> (Google) besiegt Go-Weltmeister – ein als unlösbar geltender Meilenstein.</div></div>
+          <div class="tl-item"><div class="tl-y">2022</div><div class="tl-t"><strong>ChatGPT</strong> erscheint – erreicht in 5 Tagen 1 Million Nutzer (Netflix brauchte 3,5 Jahre).</div></div>
+          <div class="tl-item"><div class="tl-y">2023</div><div class="tl-t"><strong>GPT-4, Gemini, Claude 3</strong>: KI besteht Medizin- und Juraexamen. KI-generierte Bilder und Videos explodieren.</div></div>
+          <div class="tl-item"><div class="tl-y">2024</div><div class="tl-t"><strong>KI in der Schule</strong>: Brandenburg und andere Bundesländer diskutieren Umgang mit KI im Unterricht. Erste KI-Tutor-Systeme werden getestet.</div></div>
+          <div class="tl-item"><div class="tl-y">2025+</div><div class="tl-t">KI-Agenten, die eigenständig Aufgaben erledigen; autonome Fahrzeuge; KI in der Medizindiagnose. Wohin geht die Reise?</div></div>
+        </div>
+
+        <label class="il">Was überrascht oder beeindruckt dich an dieser Zeitlinie am meisten? Begründe deine Wahl:</label>
+        <textarea class="ans sm" id="a1-3a" placeholder="Mich überrascht am meisten, dass …, weil …" oninput="mf(this,'a1',3)"></textarea>
+
+        <label class="il">ChatGPT erreichte in 5 Tagen 1 Million Nutzer – Netflix brauchte dafür 3,5 Jahre. Was sagt das über die gesellschaftliche Auswirkung von KI-Systemen aus?</label>
+        <textarea class="ans" id="a1-3b" placeholder="Das zeigt, dass KI-Systeme …" oninput="mf(this,'a1',3)"></textarea>
+      </div>
+    </div>
+
+    <!-- A1.4 -->
+    <div class="auf" id="auf-a1-4">
+      <div class="auf-hd">
+        <div class="auf-num" style="background:var(--m5l);color:var(--m5m)">A1.4</div>
+        <div class="ahr"><div class="at">🏫 KI in der Schule – eine kontroverse Debatte</div>
+        <div class="atit">Darf ich KI für Schulaufgaben nutzen? Was sind die Regeln – und was ist fair?</div></div>
+      </div>
+      <div class="auf-body">
+        <div class="ctx sc">
+          <div class="ctl">📌 Aktuelle Situation</div>
+          Viele Schulen in Deutschland, darunter in Brandenburg, diskutieren aktuell, wie sie mit KI-Tools wie ChatGPT, Gemini oder anderen im Unterricht umgehen sollen. Manche Lehrkräfte verbieten sie komplett. Andere sagen: „KI wird ein Werkzeug wie der Taschenrechner sein – wir müssen lernen, sie richtig zu nutzen." Das Kultusministerium Brandenburg hat 2023/24 erste Leitlinien veröffentlicht.
+        </div>
+
+        <p>Lies die vier Positionen und bewerte jede auf einer Skala:</p>
+        <div class="ethik-scale">
+          <div class="es-item">
+            <div class="es-q">Position A: <em>„KI sollte in der Schule komplett verboten werden – sonst lernen Schüler gar nichts mehr."</em></div>
+            <div class="progress-dots" id="pd-a1-4a">
+              <span style="font-size:12px;color:var(--ink3);min-width:80px">Stimme nicht zu</span>
+              <div class="pd" data-v="1" onclick="selDot('a1-4a',1,this)" style="color:#dc2626">1</div>
+              <div class="pd" data-v="2" onclick="selDot('a1-4a',2,this)" style="color:#ea580c">2</div>
+              <div class="pd" data-v="3" onclick="selDot('a1-4a',3,this)" style="color:#d97706">3</div>
+              <div class="pd" data-v="4" onclick="selDot('a1-4a',4,this)" style="color:#65a30d">4</div>
+              <div class="pd" data-v="5" onclick="selDot('a1-4a',5,this)" style="color:#16a34a">5</div>
+              <span style="font-size:12px;color:var(--ink3)">Stimme voll zu</span>
+            </div>
+            <textarea class="ans sm" id="a1-4a-text" placeholder="Meine Begründung …" oninput="mf(this,'a1',4)" style="min-height:58px"></textarea>
+          </div>
+          <div class="es-item">
+            <div class="es-q">Position B: <em>„KI ist wie ein Taschenrechner – ein Werkzeug, das wir lernen müssen richtig einzusetzen, nicht zu verbieten."</em></div>
+            <div class="progress-dots" id="pd-a1-4b">
+              <span style="font-size:12px;color:var(--ink3);min-width:80px">Stimme nicht zu</span>
+              <div class="pd" data-v="1" onclick="selDot('a1-4b',1,this)" style="color:#dc2626">1</div>
+              <div class="pd" data-v="2" onclick="selDot('a1-4b',2,this)" style="color:#ea580c">2</div>
+              <div class="pd" data-v="3" onclick="selDot('a1-4b',3,this)" style="color:#d97706">3</div>
+              <div class="pd" data-v="4" onclick="selDot('a1-4b',4,this)" style="color:#65a30d">4</div>
+              <div class="pd" data-v="5" onclick="selDot('a1-4b',5,this)" style="color:#16a34a">5</div>
+              <span style="font-size:12px;color:var(--ink3)">Stimme voll zu</span>
+            </div>
+            <textarea class="ans sm" id="a1-4b-text" placeholder="Meine Begründung …" oninput="mf(this,'a1',4)" style="min-height:58px"></textarea>
+          </div>
+          <div class="es-item">
+            <div class="es-q">Position C: <em>„Wenn ein Schüler KI benutzt, um eine Hausaufgabe zu schreiben, ist das Betrug – genauso wie abschreiben."</em></div>
+            <div class="progress-dots" id="pd-a1-4c">
+              <span style="font-size:12px;color:var(--ink3);min-width:80px">Stimme nicht zu</span>
+              <div class="pd" data-v="1" onclick="selDot('a1-4c',1,this)" style="color:#dc2626">1</div>
+              <div class="pd" data-v="2" onclick="selDot('a1-4c',2,this)" style="color:#ea580c">2</div>
+              <div class="pd" data-v="3" onclick="selDot('a1-4c',3,this)" style="color:#d97706">3</div>
+              <div class="pd" data-v="4" onclick="selDot('a1-4c',4,this)" style="color:#65a30d">4</div>
+              <div class="pd" data-v="5" onclick="selDot('a1-4c',5,this)" style="color:#16a34a">5</div>
+              <span style="font-size:12px;color:var(--ink3)">Stimme voll zu</span>
+            </div>
+            <textarea class="ans sm" id="a1-4c-text" placeholder="Meine Begründung …" oninput="mf(this,'a1',4)" style="min-height:58px"></textarea>
+          </div>
+        </div>
+
+        <label class="il">Wie nutzt du KI selbst im Schulalltag – sei ehrlich? Und was hältst du für eine faire Regel für eure Klasse?</label>
+        <textarea class="ans lg" id="a1-4-final" placeholder="Ich nutze KI selbst für … (ehrliche Antwort). Eine faire Regel für unsere Klasse wäre meiner Meinung nach: …, weil …" oninput="mf(this,'a1',4)"></textarea>
+      </div>
+    </div>
+
+    <!-- A1.5 -->
+    <div class="auf" id="auf-a1-5">
+      <div class="auf-hd">
+        <div class="auf-num" style="background:var(--m5l);color:var(--m5m)">A1.5</div>
+        <div class="ahr"><div class="at">🎨 KI und Kreativität</div>
+        <div class="atit">Wenn KI Bilder malt, Musik komponiert und Texte schreibt – was bleibt für Menschen?</div></div>
+      </div>
+      <div class="auf-body">
+        <div class="ctx stat">
+          <div class="ctl">📊 Aktuelle Daten 2024</div>
+          <strong>Midjourney, DALL-E, Stable Diffusion</strong> erzeugen Millionen Bilder täglich. Ein KI-generiertes Bild gewann 2022 den ersten Preis bei einem Kunstwettbewerb in den USA – und löste einen Sturm der Entrüstung aus. Musikdienste entfernen monatlich Tausende KI-generierte Songs, die echte Künstler imitieren. Ein KI-Roman wurde 2023 in Japan mit einem Literaturpreis ausgezeichnet.
+        </div>
+
+        <label class="il">Was ist deine erste emotionale Reaktion, wenn du hörst, dass eine KI einen Kunstpreis gewonnen hat? Erkläre warum:</label>
+        <textarea class="ans sm" id="a1-5a" placeholder="Meine Reaktion ist … weil …" oninput="mf(this,'a1',5)"></textarea>
+
+        <label class="il">Ist KI-generierte Kunst „echte" Kunst? Argumentiere mit mindestens einem Pro- und einem Contra-Argument:</label>
+        <div class="pc">
+          <div class="pcc" style="background:var(--okl)">
+            <div class="pch" style="color:var(--ok)">✅ Ja, es ist echte Kunst</div>
+            <textarea placeholder="Argumente …" oninput="mf(this,'a1',5)"></textarea>
+          </div>
+          <div class="pcc" style="background:var(--errl)">
+            <div class="pch" style="color:var(--err)">❌ Nein, es ist keine echte Kunst</div>
+            <textarea placeholder="Argumente …" oninput="mf(this,'a1',5)"></textarea>
+          </div>
+        </div>
+
+        <label class="il">Was würde passieren, wenn KI in 10 Jahren 90 % der Musik, Bilder und Texte produziert? Was verlieren wir – wenn überhaupt?</label>
+        <textarea class="ans" id="a1-5c" placeholder="Wir würden verlieren: … Wir würden gewinnen: … Mein Fazit: …" oninput="mf(this,'a1',5)"></textarea>
+      </div>
+    </div>
+
+    <!-- A1.6 -->
+    <div class="auf" id="auf-a1-6">
+      <div class="auf-hd">
+        <div class="auf-num" style="background:var(--m5l);color:var(--m5m)">A1.6</div>
+        <div class="ahr"><div class="at">🧮 Rechenaufgabe: Der Energiehunger der KI</div>
+        <div class="atit">KI ist nicht umweltneutral – Zahlen, die überraschen</div></div>
+      </div>
+      <div class="auf-body">
+        <div class="ctx stat">
+          <div class="ctl">📊 Daten zum Energieverbrauch von KI</div>
+          Das Training von GPT-4 verbrauchte schätzungsweise <strong>51 GWh Strom</strong> – genug, um ca. 5.000 deutsche Haushalte ein Jahr lang zu versorgen. Eine einzige Anfrage an ChatGPT verbraucht ca. <strong>10× mehr Strom</strong> als eine Google-Suche. ChatGPT verarbeitet täglich ca. 10 Millionen Anfragen. Googles KI-Datencentren verbrauchen so viel Wasser zur Kühlung wie eine mittlere Stadt.
+        </div>
+        <label class="il">a) Berechne: Wenn ChatGPT täglich 10 Mio. Anfragen verarbeitet und jede Anfrage 0,003 kWh verbraucht – wie viel kWh Strom ist das pro Tag? Pro Jahr?</label>
+        <textarea class="ans sm" id="a1-6a" placeholder="Rechenweg: 10.000.000 × 0,003 kWh = … kWh/Tag. Im Jahr: … × 365 = … kWh" oninput="mf(this,'a1',6)"></textarea>
+        <label class="il">b) Zum Vergleich: Ein deutsches Kohlekraftwerk erzeugt ca. 3 Mrd. kWh pro Jahr. Wie viele solcher Kraftwerke bräuchte man, um nur ChatGPT zu betreiben?</label>
+        <textarea class="ans sm" id="a1-6b" placeholder="Rechnung: … ÷ 3.000.000.000 = … Kraftwerke" oninput="mf(this,'a1',6)"></textarea>
+        <label class="il">c) Verändert dieses Wissen dein Verhalten beim Nutzen von KI? Begründe ehrlich:</label>
+        <textarea class="ans" id="a1-6c" placeholder="Wissen über den Energieverbrauch von KI verändert mein Verhalten … / nicht, weil …" oninput="mf(this,'a1',6)"></textarea>
+      </div>
+    </div>
+
+    <!-- A1.7 -->
+    <div class="auf" id="auf-a1-7">
+      <div class="auf-hd">
+        <div class="auf-num" style="background:var(--m5l);color:var(--m5m)">A1.7</div>
+        <div class="ahr"><div class="at">🏥 KI in der Medizin – Fluch oder Segen?</div>
+        <div class="atit">Wenn eine KI besser diagnostiziert als ein Arzt – was dann?</div></div>
+      </div>
+      <div class="auf-body">
+        <div class="ki-highlight">
+          <div class="khl">📰 Aktuelle Studie 2024</div>
+          Eine Studie der Stanford University zeigte: KI-Systeme erkennen Hautkrebs aus Fotos mit einer Genauigkeit von 91 % – Dermatologen schaffen durchschnittlich 86 %. Bei der Auswertung von Röntgenbildern zur Lungenkrebserkennung übertrafen KI-Systeme in mehreren Studien menschliche Radiologen. Gleichzeitig versagen KI-Systeme bei seltenen Krankheiten, bei Patienten aus unterrepräsentierten Gruppen oder wenn die Daten Lücken haben.
+        </div>
+        <div class="scenario-wrap">
+          <div class="stag" style="color:var(--m5m)">📌 Dilemma-Szenario</div>
+          <p style="font-size:13.5px;color:var(--ink2);line-height:1.72">Ein KI-System analysiert dein Blutbild und diagnostiziert mit 94 % Wahrscheinlichkeit eine schwere Erkrankung. Dein Arzt schaut sich das gleiche Blutbild an und sagt: „Ich sehe da nichts Besorgniserregendes." Wem vertraust du – und was tust du?</p>
+        </div>
+        <div class="cg">
+          <div class="cb" id="cb-a1-7-arzt" onclick="sc('a1-7','arzt')">Ich vertraue meinem Arzt – er kennt mich</div>
+          <div class="cb" id="cb-a1-7-ki" onclick="sc('a1-7','ki')">Ich vertraue der KI – 94 % sind beeindruckend</div>
+          <div class="cb" id="cb-a1-7-beide" onclick="sc('a1-7','beide')">Ich hole eine zweite ärztliche Meinung ein</div>
+          <div class="cb" id="cb-a1-7-fachk" onclick="sc('a1-7','fachk')">Ich fordere, dass Arzt und KI gemeinsam entscheiden</div>
+        </div>
+        <textarea class="ans" id="a1-7" placeholder="Meine Begründung und Überlegungen …" oninput="mf(this,'a1',7)"></textarea>
+        <label class="il">Welche Chancen und welche Risiken siehst du, wenn KI immer mehr in der Medizin eingesetzt wird?</label>
+        <textarea class="ans" id="a1-7b" placeholder="Chancen: …&#10;Risiken: …&#10;Mein Fazit: …" oninput="mf(this,'a1',7)"></textarea>
+      </div>
+    </div>
+
+    <!-- A1.8 -->
+    <div class="auf" id="auf-a1-8">
+      <div class="auf-hd">
+        <div class="auf-num" style="background:var(--m5l);color:var(--m5m)">A1.8</div>
+        <div class="ahr"><div class="at">✍️ Mein persönliches KI-Fazit</div>
+        <div class="atit">KI – meine Chancen, meine Risiken, mein Umgang</div></div>
+      </div>
+      <div class="auf-body">
+        <p>Fasse deine Erkenntnisse aus diesem Modul in einem persönlichen Statement zusammen.</p>
+        <label class="il">Welche Chance siehst du für dich persönlich durch KI (in deiner Ausbildung, im späteren Beruf, im Alltag)?</label>
+        <textarea class="ans" id="a1-8a" placeholder="Für mich persönlich sehe ich die größte Chance von KI darin, dass …" oninput="mf(this,'a1',8)"></textarea>
+        <label class="il">Welches Risiko durch KI bereitet dir am meisten Sorgen – und warum?</label>
+        <textarea class="ans" id="a1-8b" placeholder="Das größte Risiko, das mir Sorgen macht, ist …" oninput="mf(this,'a1',8)"></textarea>
+        <label class="il">Formuliere drei konkrete Regeln für deinen eigenen Umgang mit KI-Tools, die du dir vornimmst:</label>
+        <textarea class="ans" id="a1-8c" placeholder="Regel 1: …&#10;Regel 2: …&#10;Regel 3: …" oninput="mf(this,'a1',8)"></textarea>
+      </div>
+    </div>
+
+    <div class="abg" style="background:var(--m5m)">
+      <h3>Modul A1 abschließen</h3>
+      <p>Alle Aufgaben bearbeitet? Trage deinen Namen ein und drucke / speichere deine Arbeit.</p>
+      <div class="abg-row"><input class="ni" id="nm-a1" placeholder="Dein Name" type="text"><button class="btn btn-print" onclick="prnt('a1')">🖨️ Drucken</button></div>
+    </div>
+  </div>
+</div>
+
+<!-- ████ A2: KI & ARBEITSWELT ████ -->
+<div id="page-a2" class="page">
+  <div class="mhd">
+    <div class="mk">Modul A2 · KI &amp; Arbeitswelt</div>
+    <h2>KI und die Arbeitswelt der Zukunft</h2>
+    <div class="mm"><span class="badge" style="background:var(--m5l);color:var(--m5m)">KI · Beruf · Zukunft</span><span class="badge" style="background:var(--paper3);color:var(--ink2)">7 Aufgaben · ~35 Min.</span></div>
+  </div>
+  <div class="mbody">
+    <div class="fort"><span class="fi">💼</span>
+      <div class="ft"><div class="fl">Fortschritt</div><div class="fv" id="a2-fv">0 von 7 Aufgaben</div></div>
+      <div class="fb2"><div class="fbar"><div class="ffill" id="a2-fb" style="width:0%;background:var(--m5m)"></div></div></div>
+    </div>
+
+    <!-- A2.1 -->
+    <div class="auf" id="auf-a2-1">
+      <div class="auf-hd">
+        <div class="auf-num" style="background:var(--m5l);color:var(--m5m)">A2.1</div>
+        <div class="ahr"><div class="at">📊 Daten lesen und interpretieren</div>
+        <div class="atit">Welche Berufe sind durch KI gefährdet – und welche nicht?</div></div>
+      </div>
+      <div class="auf-body">
+        <div class="data-vis">
+          <div style="font-size:12px;font-weight:600;color:var(--ink2);margin-bottom:12px">Automatisierungsrisiko ausgewählter Berufe (McKinsey-Studie, angepasst)</div>
+          <div class="bar-chart">
+            <div class="bar-row"><span class="bar-label">Buchhalter/in</span><div class="bar-track"><div class="bar-fill" style="width:95%;background:#dc2626">95 %</div></div><span class="bar-val">95 %</span></div>
+            <div class="bar-row"><span class="bar-label">Kassierer/in</span><div class="bar-track"><div class="bar-fill" style="width:97%;background:#dc2626">97 %</div></div><span class="bar-val">97 %</span></div>
+            <div class="bar-row"><span class="bar-label">Sachbearbeiter/in</span><div class="bar-track"><div class="bar-fill" style="width:83%;background:#ea580c">83 %</div></div><span class="bar-val">83 %</span></div>
+            <div class="bar-row"><span class="bar-label">KFZ-Mechatroniker/in</span><div class="bar-track"><div class="bar-fill" style="width:40%;background:#d97706">40 %</div></div><span class="bar-val">40 %</span></div>
+            <div class="bar-row"><span class="bar-label">Pflegefachkraft</span><div class="bar-track"><div class="bar-fill" style="width:9%;background:#16a34a">9 %</div></div><span class="bar-val">9 %</span></div>
+            <div class="bar-row"><span class="bar-label">Erzieher/in</span><div class="bar-track"><div class="bar-fill" style="width:7%;background:#16a34a">7 %</div></div><span class="bar-val">7 %</span></div>
+            <div class="bar-row"><span class="bar-label">Softwareentwickler/in</span><div class="bar-track"><div class="bar-fill" style="width:22%;background:#65a30d">22 %</div></div><span class="bar-val">22 %</span></div>
+            <div class="bar-row"><span class="bar-label">Arzt / Ärztin</span><div class="bar-track"><div class="bar-fill" style="width:15%;background:#16a34a">15 %</div></div><span class="bar-val">15 %</span></div>
+          </div>
+          <div style="font-size:11px;color:var(--ink3);margin-top:8px">* Prozentzahl = Anteil der Aufgaben, die automatisiert werden können</div>
+        </div>
+
+        <label class="il">Was fällt dir beim Blick auf die Daten auf? Erkläre, was die Berufe mit hohem Automatisierungsrisiko gemeinsam haben:</label>
+        <textarea class="ans" id="a2-1a" placeholder="Berufe mit hohem Risiko haben gemeinsam, dass …" oninput="mf(this,'a2',1)"></textarea>
+
+        <label class="il">Und was schützt die Berufe mit niedrigem Risiko vor Automatisierung? Was können Pflegekräfte oder Erzieher/innen, was eine KI nicht kann?</label>
+        <textarea class="ans" id="a2-1b" placeholder="Diese Berufe sind sicherer, weil sie … erfordern, was KI nicht leisten kann, weil …" oninput="mf(this,'a2',1)"></textarea>
+
+        <label class="il">Schau dir den Beruf an, den du anstrebst (oder einen, den du interessant findest). Wie schätzt du sein Automatisierungsrisiko ein?</label>
+        <textarea class="ans sm" id="a2-1c" placeholder="Mein Wunschberuf … hat meiner Einschätzung nach ein … Automatisierungsrisiko, weil …" oninput="mf(this,'a2',1)"></textarea>
+      </div>
+    </div>
+
+    <!-- A2.2 -->
+    <div class="auf" id="auf-a2-2">
+      <div class="auf-hd">
+        <div class="auf-num" style="background:var(--m5l);color:var(--m5m)">A2.2</div>
+        <div class="ahr"><div class="at">🔮 Zukunftsszenario</div>
+        <div class="atit">Deutschland 2040: Wie arbeiten Menschen noch?</div></div>
+      </div>
+      <div class="auf-body">
+        <div class="ctx sc">
+          <div class="ctl">📌 Szenario: Deutschland 2040</div>
+          Laut Prognosen des Instituts für Arbeitsmarkt- und Berufsforschung (IAB) könnten bis 2040 in Deutschland 4–5 Millionen Arbeitsplätze durch KI und Automatisierung wegfallen. Gleichzeitig entstehen neue Berufe: KI-Trainer/in, Datenschutzbeauftragte/r, Robotik-Techniker/in, Prompt Engineer. Außerdem wird diskutiert: Wenn KI die Arbeit übernimmt – wer bekommt dann den Gewinn?
+        </div>
+
+        <label class="il">Entwickle zwei Szenarien für Deutschland 2040 – ein positives und ein negatives:</label>
+        <div class="pc">
+          <div class="pcc" style="background:var(--okl)">
+            <div class="pch" style="color:var(--ok)">✅ Positives Szenario 2040</div>
+            <textarea placeholder="In meinem positiven Szenario hat KI dazu geführt, dass …" oninput="mf(this,'a2',2)"></textarea>
+          </div>
+          <div class="pcc" style="background:var(--errl)">
+            <div class="pch" style="color:var(--err)">⚠️ Negatives Szenario 2040</div>
+            <textarea placeholder="In meinem negativen Szenario hat KI dazu geführt, dass …" oninput="mf(this,'a2',2)"></textarea>
+          </div>
+        </div>
+
+        <label class="il">Was müsste die Politik deiner Meinung nach jetzt tun, um das positive Szenario wahrscheinlicher zu machen?</label>
+        <textarea class="ans" id="a2-2pol" placeholder="Die Politik sollte …" oninput="mf(this,'a2',2)"></textarea>
+      </div>
+    </div>
+
+    <!-- A2.3 -->
+    <div class="auf" id="auf-a2-3">
+      <div class="auf-hd">
+        <div class="auf-num" style="background:var(--m5l);color:var(--m5m)">A2.3</div>
+        <div class="ahr"><div class="at">💡 Neue Berufe durch KI</div>
+        <div class="atit">Berufe, die noch nicht existieren – aber bald gebraucht werden</div></div>
+      </div>
+      <div class="auf-body">
+        <div class="ctx tip">
+          <div class="ctl">💡 Neue Berufsbilder durch KI</div>
+          <strong>Prompt Engineer:</strong> Formuliert präzise Anfragen an KI-Systeme. · <strong>KI-Trainer/in:</strong> Trainiert KI-Modelle mit Daten und Feedback. · <strong>KI-Ethiker/in:</strong> Bewertet moralische Aspekte von KI-Systemen. · <strong>AI Product Manager:</strong> Entwickelt Produkte auf Basis von KI. · <strong>Synthetic-Data-Spezialist/in:</strong> Erstellt realistische Testdaten für KI. · <strong>KI-Erklärer/in:</strong> Macht KI-Entscheidungen für Menschen verständlich.
+        </div>
+
+        <label class="il">Welcher dieser neuen Berufe interessiert dich am meisten – und warum? Was würde dich daran reizen?</label>
+        <textarea class="ans" id="a2-3a" placeholder="Am meisten interessiert mich …, weil …" oninput="mf(this,'a2',3)"></textarea>
+
+        <label class="il">Erfinde selbst einen KI-bezogenen Beruf, der in 10 Jahren existieren könnte. Gib ihm einen Namen, beschreibe seine Aufgaben und erkläre, warum er gebraucht wird:</label>
+        <textarea class="ans lg" id="a2-3b" placeholder="Name des Berufs: …&#10;Aufgaben: …&#10;Warum er gebraucht wird: …" oninput="mf(this,'a2',3)"></textarea>
+      </div>
+    </div>
+
+    <!-- A2.4 -->
+    <div class="auf" id="auf-a2-4">
+      <div class="auf-hd">
+        <div class="auf-num" style="background:var(--m5l);color:var(--m5m)">A2.4</div>
+        <div class="ahr"><div class="at">💰 Wirtschaftsfrage: Wem gehört der KI-Gewinn?</div>
+        <div class="atit">Wenn Maschinen arbeiten – wer bekommt das Geld?</div></div>
+      </div>
+      <div class="auf-body">
+        <div class="ctx sc">
+          <div class="ctl">📌 Das Verteilungsproblem</div>
+          Wenn ein Roboter die Arbeit von 10 Menschen übernimmt, gehört der Gewinn dem Unternehmen – nicht den ersetzten Arbeitnehmern. Gleichzeitig zahlt ein Roboter keine Einkommensteuer oder Sozialversicherungsbeiträge. Das bedroht das Finanzierungsmodell des deutschen Sozialstaats (Krankenversicherung, Rente usw.). Eine diskutierte Idee: eine <strong>„Robotersteuer"</strong> – Unternehmen zahlen eine Steuer für jeden Roboter/jede KI, die menschliche Arbeit ersetzt. Das Geld soll in sozialen Ausgleich oder ein Grundeinkommen fließen.
+        </div>
+
+        <label class="il">Was hältst du von der Idee einer Robotersteuer? Ist sie gerecht – warum / warum nicht?</label>
+        <div class="cg col3">
+          <div class="cb" id="cb-a2-4-ja" onclick="sc('a2-4','ja')">✅ Gute Idee</div>
+          <div class="cb" id="cb-a2-4-nein" onclick="sc('a2-4','nein')">❌ Schlechte Idee</div>
+          <div class="cb" id="cb-a2-4-ambiv" onclick="sc('a2-4','ambiv')">🤔 Ambivalent</div>
+        </div>
+        <textarea class="ans" id="a2-4" placeholder="Meine Meinung mit Begründung: …" oninput="mf(this,'a2',4)"></textarea>
+
+        <label class="il">Alternativ diskutieren manche ein <strong>bedingungsloses Grundeinkommen (BGE)</strong>: Jeder Bürger erhält monatlich einen festen Betrag, unabhängig davon, ob er arbeitet. Was spricht dafür – was dagegen?</label>
+        <div class="pc">
+          <div class="pcc" style="background:var(--okl)">
+            <div class="pch" style="color:var(--ok)">✅ Pro BGE</div>
+            <textarea placeholder="Argumente dafür …" oninput="mf(this,'a2',4)"></textarea>
+          </div>
+          <div class="pcc" style="background:var(--errl)">
+            <div class="pch" style="color:var(--err)">❌ Contra BGE</div>
+            <textarea placeholder="Argumente dagegen …" oninput="mf(this,'a2',4)"></textarea>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- A2.5 -->
+    <div class="auf" id="auf-a2-5">
+      <div class="auf-hd">
+        <div class="auf-num" style="background:var(--m5l);color:var(--m5m)">A2.5</div>
+        <div class="ahr"><div class="at">🛡️ Zukunftssicherer Beruf – was brauche ich?</div>
+        <div class="atit">Welche Kompetenzen schützen mich vor Automatisierung?</div></div>
+      </div>
+      <div class="auf-body">
+        <div class="ki-highlight">
+          <div class="khl">🔑 Zukunftskompetenzen laut Weltbildungsforum 2023</div>
+          Kompetenzen, die KI schwer replizieren kann: <strong>Kreativität, kritisches Denken, emotionale Intelligenz, Problemlösung in unbekannten Situationen, soziale und kommunikative Fähigkeiten, ethisches Urteilsvermögen, handwerkliches und körperliches Geschick, Anpassungsfähigkeit.</strong> Kompetenzen, bei denen KI schon besser ist als Menschen: Datenverarbeitung, Mustererkennung, Übersetzung, bestimmte medizinische Diagnosen, Schach und andere regelbasierte Spiele.
+        </div>
+        <label class="il">Bringe die folgenden Kompetenzen in eine Rangfolge – was ist für DEINE Zukunft am wichtigsten? (Ziehe in die gewünschte Reihenfolge)</label>
+        <div class="rl" id="rl-a2-5">
+          <div class="ri" draggable="true" data-val="kreativ" ondragstart="ds(event)" ondragover="dov(event)" ondrop="di(event,'rl-a2-5')" ondragleave="dl(event)"><span class="rh">⋮⋮</span><span class="rp" id="rp-kreativ">?</span><span>🎨 Kreativität und Ideenfindung</span></div>
+          <div class="ri" draggable="true" data-val="emot" ondragstart="ds(event)" ondragover="dov(event)" ondrop="di(event,'rl-a2-5')" ondragleave="dl(event)"><span class="rh">⋮⋮</span><span class="rp" id="rp-emot">?</span><span>❤️ Emotionale Intelligenz</span></div>
+          <div class="ri" draggable="true" data-val="kritisch" ondragstart="ds(event)" ondragover="dov(event)" ondrop="di(event,'rl-a2-5')" ondragleave="dl(event)"><span class="rh">⋮⋮</span><span class="rp" id="rp-kritisch">?</span><span>🧠 Kritisches Denken</span></div>
+          <div class="ri" draggable="true" data-val="ki-nutz" ondragstart="ds(event)" ondragover="dov(event)" ondrop="di(event,'rl-a2-5')" ondragleave="dl(event)"><span class="rh">⋮⋮</span><span class="rp" id="rp-ki-nutz">?</span><span>🤖 KI kompetent nutzen</span></div>
+          <div class="ri" draggable="true" data-val="fach" ondragstart="ds(event)" ondragover="dov(event)" ondrop="di(event,'rl-a2-5')" ondragleave="dl(event)"><span class="rh">⋮⋮</span><span class="rp" id="rp-fach">?</span><span>📚 Tiefes Fachwissen</span></div>
+          <div class="ri" draggable="true" data-val="sozial" ondragstart="ds(event)" ondragover="dov(event)" ondrop="di(event,'rl-a2-5')" ondragleave="dl(event)"><span class="rh">⋮⋮</span><span class="rp" id="rp-sozial">?</span><span>🤝 Kommunikation und Teamarbeit</span></div>
+          <div class="ri" draggable="true" data-val="anpass" ondragstart="ds(event)" ondragover="dov(event)" ondrop="di(event,'rl-a2-5')" ondragleave="dl(event)"><span class="rh">⋮⋮</span><span class="rp" id="rp-anpass">?</span><span>🔄 Anpassungsfähigkeit / Lernen lernen</span></div>
+        </div>
+        <button class="btn btn-out btn-sm" style="margin-top:8px" onclick="rnu('rl-a2-5')">🔄 Nummern aktualisieren</button>
+        <label class="il">Begründe deine Top-3: Warum sind diese für dich besonders wichtig?</label>
+        <textarea class="ans" id="a2-5text" placeholder="Platz 1 ist für mich … besonders wichtig, weil …" oninput="mf(this,'a2',5)"></textarea>
+      </div>
+    </div>
+
+    <!-- A2.6 -->
+    <div class="auf" id="auf-a2-6">
+      <div class="auf-hd">
+        <div class="auf-num" style="background:var(--m5l);color:var(--m5m)">A2.6</div>
+        <div class="ahr"><div class="at">📋 Fallstudie: Bewerbung mit KI-Hilfe</div>
+        <div class="atit">Wenn Algorithmen über deine Bewerbung entscheiden</div></div>
+      </div>
+      <div class="auf-body">
+        <div class="ctx sc">
+          <div class="ctl">📌 Aktuelle Praxis</div>
+          Viele große Unternehmen nutzen bereits KI, um Bewerbungen vorzusortieren – bevor ein Mensch sie liest. Die KI scannt Lebensläufe nach Schlüsselwörtern, bewertet Formulierungen und vergleicht mit den Profilen erfolgreicher Mitarbeiter. Gleichzeitig benutzen Bewerber/innen KI, um Anschreiben zu optimieren oder sogar vollständig zu generieren. Amazon testete 2015–2018 ein KI-Recruiting-System – musste es abschalten, weil es Frauen systematisch benachteiligte.
+        </div>
+        <label class="il">Stell dir vor: Du bewirbst dich mit einem von ChatGPT geschriebenen Anschreiben, und eine KI beim Unternehmen entscheidet über deine Bewerbung. Was hältst du davon – aus deiner Perspektive als Bewerber/in?</label>
+        <textarea class="ans" id="a2-6a" placeholder="Als Bewerber/in finde ich das … weil …" oninput="mf(this,'a2',6)"></textarea>
+        <label class="il">Das Amazon-Beispiel zeigt: KI kann systematische Vorurteile verstärken. Erkläre, warum das passieren kann, und was das für die Fairness bedeutet:</label>
+        <textarea class="ans" id="a2-6b" placeholder="Das passiert, weil KI aus historischen Daten lernt, die …" oninput="mf(this,'a2',6)"></textarea>
+      </div>
+    </div>
+
+    <!-- A2.7 -->
+    <div class="auf" id="auf-a2-7">
+      <div class="auf-hd">
+        <div class="auf-num" style="background:var(--m5l);color:var(--m5m)">A2.7</div>
+        <div class="ahr"><div class="at">🗺️ Mein persönlicher Kompetenzplan</div>
+        <div class="atit">Wie mache ich mich fit für eine KI-geprägte Arbeitswelt?</div></div>
+      </div>
+      <div class="auf-body">
+        <p>Auf Basis aller Überlegungen in diesem Modul: Erstelle einen konkreten Kompetenzentwicklungsplan für die nächsten 2 Jahre.</p>
+        <table class="ti-tbl">
+          <thead><tr><th>Kompetenz, die ich aufbauen will</th><th>Warum ist sie wichtig für mich?</th><th>Wie will ich sie entwickeln?</th><th>Bis wann?</th></tr></thead>
+          <tbody>
+            <tr><td><textarea oninput="mf(this,'a2',7)" rows="2"></textarea></td><td><textarea oninput="mf(this,'a2',7)" rows="2"></textarea></td><td><textarea oninput="mf(this,'a2',7)" rows="2"></textarea></td><td><textarea oninput="mf(this,'a2',7)" rows="2"></textarea></td></tr>
+            <tr><td><textarea oninput="mf(this,'a2',7)" rows="2"></textarea></td><td><textarea oninput="mf(this,'a2',7)" rows="2"></textarea></td><td><textarea oninput="mf(this,'a2',7)" rows="2"></textarea></td><td><textarea oninput="mf(this,'a2',7)" rows="2"></textarea></td></tr>
+            <tr><td><textarea oninput="mf(this,'a2',7)" rows="2"></textarea></td><td><textarea oninput="mf(this,'a2',7)" rows="2"></textarea></td><td><textarea oninput="mf(this,'a2',7)" rows="2"></textarea></td><td><textarea oninput="mf(this,'a2',7)" rows="2"></textarea></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="abg" style="background:var(--m5m)">
+      <h3>Modul A2 abschließen</h3>
+      <p>Trage deinen Namen ein und drucke / speichere deine Arbeit.</p>
+      <div class="abg-row"><input class="ni" id="nm-a2" placeholder="Dein Name" type="text"><button class="btn btn-print" onclick="prnt('a2')">🖨️ Drucken</button></div>
+    </div>
+  </div>
+</div>
+
+<!-- ████ A3: KI-ETHIK & RECHT ████ -->
+<div id="page-a3" class="page">
+  <div class="mhd">
+    <div class="mk">Modul A3 · KI-Ethik &amp; Recht</div>
+    <h2>KI-Ethik, Datenschutz &amp; Recht</h2>
+    <div class="mm"><span class="badge" style="background:var(--m5l);color:var(--m5m)">Ethik · Recht · Gesellschaft</span><span class="badge" style="background:var(--paper3);color:var(--ink2)">7 Aufgaben · ~35 Min.</span></div>
+  </div>
+  <div class="mbody">
+    <div class="fort"><span class="fi">⚖️</span>
+      <div class="ft"><div class="fl">Fortschritt</div><div class="fv" id="a3-fv">0 von 7 Aufgaben</div></div>
+      <div class="fb2"><div class="fbar"><div class="ffill" id="a3-fb" style="width:0%;background:var(--m5m)"></div></div></div>
+    </div>
+
+    <!-- A3.1 -->
+    <div class="auf" id="auf-a3-1">
+      <div class="auf-hd">
+        <div class="auf-num" style="background:var(--m5l);color:var(--m5m)">A3.1</div>
+        <div class="ahr"><div class="at">👁️ Überwachung &amp; Datenschutz</div>
+        <div class="atit">Wie viel weiß das Internet über dich – und was passiert damit?</div></div>
+      </div>
+      <div class="auf-body">
+        <div class="ki-highlight">
+          <div class="khl">📊 Daten, die über dich gesammelt werden</div>
+          Wenn du ein Smartphone nutzt, werden typischerweise gesammelt: Standortdaten (24/7), Suchbegriffe, Klick- und Scrollverhalten, Einkaufshistorie, Kontakte, Fotos (Gesichtserkennung), Sprachaufnahmen (Siri, Alexa), Gesundheitsdaten (Fitnesstracker), Schlaf- und Bewegungsmuster. Werbeunternehmen können aus 300 Datenpunkten deine Persönlichkeit, deinen politischen Standpunkt und dein Kaufverhalten mit 90 % Genauigkeit vorhersagen.
+        </div>
+        <label class="il">Welche dieser Datenkategorien überrascht dich am meisten? Was hattest du nicht gewusst?</label>
+        <textarea class="ans sm" id="a3-1a" placeholder="Am meisten überrascht mich …" oninput="mf(this,'a3',1)"></textarea>
+        <label class="il">Stell dir vor, eine Versicherung kauft deine Gesundheits- und Bewegungsdaten vom Smartphone-Hersteller und nutzt sie, um deine Prämie zu berechnen. Darf das sein? Ist das fair?</label>
+        <div class="cg col3">
+          <div class="cb" id="cb-a3-1-ja" onclick="sc('a3-1','ja')">✅ Ja, fair</div>
+          <div class="cb" id="cb-a3-1-nein" onclick="sc('a3-1','nein')">❌ Nein, verboten</div>
+          <div class="cb" id="cb-a3-1-kompl" onclick="sc('a3-1','kompl')">🤔 Kommt drauf an</div>
+        </div>
+        <textarea class="ans" id="a3-1b" placeholder="Meine Begründung: …" oninput="mf(this,'a3',1)"></textarea>
+        <label class="il">Was kannst du konkret tun, um deine Daten besser zu schützen? Nenne drei realistische Maßnahmen:</label>
+        <textarea class="ans sm" id="a3-1c" placeholder="1. …&#10;2. …&#10;3. …" oninput="mf(this,'a3',1)"></textarea>
+      </div>
+    </div>
+
+    <!-- A3.2 -->
+    <div class="auf" id="auf-a3-2">
+      <div class="auf-hd">
+        <div class="auf-num" style="background:var(--m5l);color:var(--m5m)">A3.2</div>
+        <div class="ahr"><div class="at">🎭 Deepfakes – die neue Bedrohung</div>
+        <div class="atit">Wenn man keinem Video mehr trauen kann</div></div>
+      </div>
+      <div class="auf-body">
+        <div class="ctx danger">
+          <div class="ctl">⚠️ Was sind Deepfakes?</div>
+          <strong>Deepfakes</strong> sind KI-generierte Videos oder Audioaufnahmen, in denen echte Personen Dinge sagen oder tun, die sie nie gesagt oder getan haben. 2024 kursierte ein Deepfake-Video einer deutschen Politikerin, das sie bei einer angeblich kompromittierenden Handlung zeigte – und viral ging, bevor es als Fake erkannt wurde. Deepfakes werden genutzt für: politische Desinformation, Betrug (gefälschte Chefs-Anrufe), nicht-einvernehmliche Pornografie (96 % aller Deepfakes laut Studie), Mobbing.
+        </div>
+        <label class="il">Welche gesellschaftliche Gefahr siehst du als am größten an – und warum?</label>
+        <textarea class="ans sm" id="a3-2a" placeholder="Die größte Gefahr ist meiner Meinung nach …, weil …" oninput="mf(this,'a3',2)"></textarea>
+        <label class="il">Stell dir vor, ein Deepfake-Video von dir kursiert in der Schule. Was würdest du tun? Welche rechtlichen Möglichkeiten hättest du?</label>
+        <textarea class="ans" id="a3-2b" placeholder="Ich würde als erstes … tun. Rechtlich könnte ich … tun, weil …" oninput="mf(this,'a3',2)"></textarea>
+        <label class="il">Einige Länder diskutieren, Deepfakes komplett zu verbieten. Andere sagen, das sei technisch nicht umsetzbar. Was denkst du: Welche Lösung wäre realistisch?</label>
+        <textarea class="ans" id="a3-2c" placeholder="Ein komplettes Verbot wäre … Eine realistischere Lösung wäre …" oninput="mf(this,'a3',2)"></textarea>
+      </div>
+    </div>
+
+    <!-- A3.3 -->
+    <div class="auf" id="auf-a3-3">
+      <div class="auf-hd">
+        <div class="auf-num" style="background:var(--m5l);color:var(--m5m)">A3.3</div>
+        <div class="ahr"><div class="at">🤖 Algorithmus-Bias</div>
+        <div class="atit">Wenn KI-Systeme diskriminieren – ohne es zu merken</div></div>
+      </div>
+      <div class="auf-body">
+        <div class="ctx stat">
+          <div class="ctl">📊 Reale Fälle von Algorithmus-Bias</div>
+          <strong>COMPAS-System (USA):</strong> Ein KI-System zur Vorhersage von Rückfalltätern empfahl schwarzen Angeklagten doppelt so häufig längere Haftstrafen wie weißen Angeklagten mit gleichem Vergehen. · <strong>Amazon-Recruiting-KI:</strong> Benachteiligte systematisch Bewerbungen von Frauen. · <strong>Google Photos (2015):</strong> Klassifizierte schwarze Menschen als „Gorillas". · <strong>Kreditvergabe-KI:</strong> Verweigerte Kredite häufiger in armen Stadtvierteln, unabhängig von der individuellen Bonität.
+        </div>
+        <label class="il">Erkläre mit eigenen Worten, wie Algorithmus-Bias entsteht. Warum kann eine KI diskriminieren, obwohl sie keine Gefühle hat?</label>
+        <textarea class="ans" id="a3-3a" placeholder="Algorithmus-Bias entsteht, weil …" oninput="mf(this,'a3',3)"></textarea>
+        <label class="il">Wer ist deiner Meinung nach verantwortlich, wenn eine KI diskriminiert: das Unternehmen, das sie entwickelt hat, die Nutzer, der Staat – oder niemand?</label>
+        <div class="cg">
+          <div class="cb" id="cb-a3-3-untern" onclick="sc('a3-3','untern')">Das Unternehmen</div>
+          <div class="cb" id="cb-a3-3-nutzer" onclick="sc('a3-3','nutzer')">Die Nutzer</div>
+          <div class="cb" id="cb-a3-3-staat" onclick="sc('a3-3','staat')">Der Staat / Gesetzgeber</div>
+          <div class="cb" id="cb-a3-3-alle" onclick="sc('a3-3','alle')">Alle gemeinsam</div>
+        </div>
+        <textarea class="ans" id="a3-3b" placeholder="Ich finde, dass … verantwortlich ist / sind, weil …" oninput="mf(this,'a3',3)"></textarea>
+      </div>
+    </div>
+
+    <!-- A3.4 -->
+    <div class="auf" id="auf-a3-4">
+      <div class="auf-hd">
+        <div class="auf-num" style="background:var(--m5l);color:var(--m5m)">A3.4</div>
+        <div class="ahr"><div class="at">📜 EU KI-Verordnung (AI Act)</div>
+        <div class="atit">Europas Versuch, KI zu regulieren – notwendig oder übertrieben?</div></div>
+      </div>
+      <div class="auf-body">
+        <div class="ki-highlight">
+          <div class="khl">📰 EU AI Act – weltweit erstes KI-Gesetz (2024)</div>
+          Die EU hat 2024 das weltweit erste umfassende KI-Gesetz verabschiedet. Es teilt KI-Systeme in Risikostufen ein: <strong>Inakzeptabel</strong> (verboten): soziale Bewertungssysteme nach chinesischem Muster, Massenüberwachung in Echtzeit. <strong>Hoch riskant</strong> (streng reguliert): KI in Bewerbungsverfahren, Kreditvergabe, Strafverfolgung, Medizin. <strong>Niedrig riskant</strong> (kaum reguliert): Chatbots, Empfehlungsalgorithmen. Strafen: bis zu 35 Millionen Euro oder 7 % des Jahresumsatzes.
+        </div>
+        <label class="il">Ist ein KI-Gesetz deiner Meinung nach notwendig? Begründe mit einem Pro- und einem Contra-Argument:</label>
+        <div class="pc">
+          <div class="pcc" style="background:var(--okl)">
+            <div class="pch" style="color:var(--ok)">✅ Pro KI-Gesetz</div>
+            <textarea placeholder="Ein KI-Gesetz ist notwendig, weil …" oninput="mf(this,'a3',4)"></textarea>
+          </div>
+          <div class="pcc" style="background:var(--errl)">
+            <div class="pch" style="color:var(--err)">❌ Contra KI-Gesetz</div>
+            <textarea placeholder="Gegen ein strenges Gesetz spricht, dass …" oninput="mf(this,'a3',4)"></textarea>
+          </div>
+        </div>
+        <label class="il">Die EU verbietet „Massenüberwachung in Echtzeit" – also z.B. automatische Gesichtserkennung an Bahnhöfen. Einige argumentieren: Das würde Terror verhindern. Andere: Es ist ein Eingriff in Grundrechte. Was meinst du?</label>
+        <textarea class="ans" id="a3-4b" placeholder="Ich bin der Meinung, dass … weil …" oninput="mf(this,'a3',4)"></textarea>
+      </div>
+    </div>
+
+    <!-- A3.5 -->
+    <div class="auf" id="auf-a3-5">
+      <div class="auf-hd">
+        <div class="auf-num" style="background:var(--m5l);color:var(--m5m)">A3.5</div>
+        <div class="ahr"><div class="at">📸 Urheberrecht &amp; KI</div>
+        <div class="atit">Wer besitzt das Bild, das die KI gemalt hat?</div></div>
+      </div>
+      <div class="auf-body">
+        <div class="ctx sc">
+          <div class="ctl">📌 Aktuelles Rechtsproblem</div>
+          KI-Systeme wie Midjourney wurden mit Millionen urheberrechtlich geschützter Bilder von Künstlern trainiert – ohne deren Erlaubnis oder Vergütung. Jetzt generieren sie Bilder „im Stil von" echten Künstlern. Mehrere Fotografen und Illustratoren haben Klage eingereicht. Ein US-Gericht entschied 2023: KI-generierte Bilder ohne menschlichen Schöpfer sind nicht urheberrechtlich schützbar. In Deutschland ist das noch nicht abschließend geklärt.
+        </div>
+        <label class="il">Stell dir vor, du bist Illustratorin und verdienst deinen Lebensunterhalt damit. Eine KI-Firma trainiert ihr Modell mit deinen Bildern – und verkauft jetzt KI-Bilder „in deinem Stil" für 10 Cent pro Bild. Was findest du daran richtig oder falsch?</label>
+        <textarea class="ans" id="a3-5a" placeholder="Das finde ich … weil …" oninput="mf(this,'a3',5)"></textarea>
+        <label class="il">Sollten KI-Firmen Künstler entschädigen, deren Werke zum Training genutzt wurden? Wie würde das praktisch funktionieren?</label>
+        <textarea class="ans" id="a3-5b" placeholder="Meiner Meinung nach sollten … Praktisch könnte das so aussehen, dass …" oninput="mf(this,'a3',5)"></textarea>
+      </div>
+    </div>
+
+    <!-- A3.6 -->
+    <div class="auf" id="auf-a3-6">
+      <div class="auf-hd">
+        <div class="auf-num" style="background:var(--m5l);color:var(--m5m)">A3.6</div>
+        <div class="ahr"><div class="at">🔍 Desinformation &amp; KI</div>
+        <div class="atit">Wenn KI massenhaft Falschnachrichten produziert</div></div>
+      </div>
+      <div class="auf-body">
+        <div class="ctx danger">
+          <div class="ctl">⚠️ Aktuelle Bedrohungslage</div>
+          KI kann in Sekunden tausende überzeugende Falschnachrichten, gefälschte Fotos und Deepfake-Videos produzieren. Bei den US-Wahlen 2024 kursieren KI-generierte Falschaussagen von Kandidaten. In Europa wurden KI-generierte Bilder angeblicher Kriegsverbrechen viral, die nicht existierten. KI-Chatbots werden für automatisierte „Troll-Farmen" genutzt – Fake-Accounts, die Meinungen manipulieren.
+        </div>
+        <label class="il">Wie erkennst du Desinformation im Netz? Was machst du konkret, wenn du dir bei einer Nachricht nicht sicher bist?</label>
+        <textarea class="ans" id="a3-6a" placeholder="Meine Strategie gegen Desinformation: Ich … bevor ich etwas weiterteile." oninput="mf(this,'a3',6)"></textarea>
+        <label class="il">Wer ist deiner Meinung nach in der Pflicht, Desinformation zu bekämpfen? Ordne nach Wichtigkeit und begründe:</label>
+        <div class="rl" id="rl-a3-6">
+          <div class="ri" draggable="true" data-val="plat" ondragstart="ds(event)" ondragover="dov(event)" ondrop="di(event,'rl-a3-6')" ondragleave="dl(event)"><span class="rh">⋮⋮</span><span class="rp" id="rp-plat">?</span><span>📱 Social-Media-Plattformen (Meta, TikTok, X)</span></div>
+          <div class="ri" draggable="true" data-val="staat2" ondragstart="ds(event)" ondragover="dov(event)" ondrop="di(event,'rl-a3-6')" ondragleave="dl(event)"><span class="rh">⋮⋮</span><span class="rp" id="rp-staat2">?</span><span>🏛️ Staat / Gesetzgeber</span></div>
+          <div class="ri" draggable="true" data-val="medi" ondragstart="ds(event)" ondragover="dov(event)" ondrop="di(event,'rl-a3-6')" ondragleave="dl(event)"><span class="rh">⋮⋮</span><span class="rp" id="rp-medi">?</span><span>📰 Medien / Journalisten</span></div>
+          <div class="ri" draggable="true" data-val="schul2" ondragstart="ds(event)" ondragover="dov(event)" ondrop="di(event,'rl-a3-6')" ondragleave="dl(event)"><span class="rh">⋮⋮</span><span class="rp" id="rp-schul2">?</span><span>🏫 Schule / Bildungssystem</span></div>
+          <div class="ri" draggable="true" data-val="nutzer2" ondragstart="ds(event)" ondragover="dov(event)" ondrop="di(event,'rl-a3-6')" ondragleave="dl(event)"><span class="rh">⋮⋮</span><span class="rp" id="rp-nutzer2">?</span><span>👤 Jede/r Einzelne</span></div>
+        </div>
+        <button class="btn btn-out btn-sm" style="margin-top:8px" onclick="rnu('rl-a3-6')">🔄 Nummern aktualisieren</button>
+        <textarea class="ans sm" id="a3-6b" placeholder="Meine Begründung …" oninput="mf(this,'a3',6)" style="margin-top:10px"></textarea>
+      </div>
+    </div>
+
+    <!-- A3.7 -->
+    <div class="auf" id="auf-a3-7">
+      <div class="auf-hd">
+        <div class="auf-num" style="background:var(--m5l);color:var(--m5m)">A3.7</div>
+        <div class="ahr"><div class="at">✍️ Ethisches Urteil</div>
+        <div class="atit">Drei Dilemmas – meine Antworten</div></div>
+      </div>
+      <div class="auf-body">
+        <p>Bei diesen Dilemmas gibt es keine eindeutige Antwort. Wichtig ist, dass du <strong>alle Seiten abwägst</strong> und eine begründete Haltung formulierst.</p>
+
+        <div class="scenario-wrap">
+          <div class="stag" style="color:var(--m5m)">📌 Dilemma 1: KI-Überwachung für Sicherheit</div>
+          <p style="font-size:13.5px;color:var(--ink2);line-height:1.7">Eine Stadt kann mit KI-Kameras und Gesichtserkennung die Verbrechensrate um 40 % senken – aber alle Bürger werden dabei 24/7 überwacht. Würdest du in dieser Stadt leben wollen?</p>
+        </div>
+        <textarea class="ans sm" id="a3-7a" placeholder="Ja/Nein, weil … Das Hauptproblem dabei ist …" oninput="mf(this,'a3',7)"></textarea>
+
+        <div class="scenario-wrap" style="margin-top:12px">
+          <div class="stag" style="color:var(--m5m)">📌 Dilemma 2: Autonome Waffen</div>
+          <p style="font-size:13.5px;color:var(--ink2);line-height:1.7">Militärische KI-Drohnen können eigenständig Entscheidungen treffen, ob sie angreifen oder nicht – ohne menschliche Genehmigung. Das spart Zeit und Soldatenleben. Soll das erlaubt sein?</p>
+        </div>
+        <textarea class="ans sm" id="a3-7b" placeholder="Meine Position: … Die entscheidende ethische Frage ist …" oninput="mf(this,'a3',7)"></textarea>
+
+        <div class="scenario-wrap" style="margin-top:12px">
+          <div class="stag" style="color:var(--m5m)">📌 Dilemma 3: KI-Freundschaft</div>
+          <p style="font-size:13.5px;color:var(--ink2);line-height:1.7">Ältere, einsame Menschen oder Kinder mit sozialen Schwierigkeiten entwickeln echte emotionale Bindungen zu KI-Assistenten (wie „Replika" oder zukünftigen Systemen). Ist das gut oder schlecht – für sie, für die Gesellschaft?</p>
+        </div>
+        <textarea class="ans sm" id="a3-7c" placeholder="Für die Person selbst sehe ich …, für die Gesellschaft sehe ich …" oninput="mf(this,'a3',7)"></textarea>
+      </div>
+    </div>
+
+    <div class="abg" style="background:var(--m5m)">
+      <h3>Modul A3 abschließen</h3>
+      <p>Trage deinen Namen ein und drucke / speichere deine Arbeit.</p>
+      <div class="abg-row"><input class="ni" id="nm-a3" placeholder="Dein Name" type="text"><button class="btn btn-print" onclick="prnt('a3')">🖨️ Drucken</button></div>
+    </div>
+  </div>
+</div>
+
+<!-- ████ B1: ENERGIEWENDE DETAILS ████ -->
+<div id="page-b1" class="page">
+  <div class="mhd">
+    <div class="mk">Modul B1 · Energie &amp; Technik</div>
+    <h2>Energiewende Deutschland – Details &amp; Konflikte</h2>
+    <div class="mm"><span class="badge" style="background:var(--m6l);color:var(--m6m)">Energie · Politik · Wirtschaft</span><span class="badge" style="background:var(--paper3);color:var(--ink2)">7 Aufgaben · ~35 Min.</span></div>
+  </div>
+  <div class="mbody">
+    <div class="fort"><span class="fi">⚡</span>
+      <div class="ft"><div class="fl">Fortschritt</div><div class="fv" id="b1-fv">0 von 7 Aufgaben</div></div>
+      <div class="fb2"><div class="fbar"><div class="ffill" id="b1-fb" style="width:0%;background:var(--m6m)"></div></div></div>
+    </div>
+
+    <!-- B1.1 -->
+    <div class="auf" id="auf-b1-1">
+      <div class="auf-hd">
+        <div class="auf-num" style="background:var(--m6l);color:var(--m6c,#166534)">B1.1</div>
+        <div class="ahr"><div class="at">📊 Daten: Wo steht Deutschland?</div>
+        <div class="atit">Strommix 2024 – Fakten und Lücken</div></div>
+      </div>
+      <div class="auf-body">
+        <div class="data-vis">
+          <div style="font-size:12px;font-weight:600;color:var(--ink2);margin-bottom:12px">Stromerzeugung Deutschland 2023 (vereinfacht)</div>
+          <div class="bar-chart">
+            <div class="bar-row"><span class="bar-label">Windkraft (Land+See)</span><div class="bar-track"><div class="bar-fill" style="width:35%;background:#16a34a">35 %</div></div><span class="bar-val">35 %</span></div>
+            <div class="bar-row"><span class="bar-label">Kohle (Braun+Stein)</span><div class="bar-track"><div class="bar-fill" style="width:26%;background:#7c2d12">26 %</div></div><span class="bar-val">26 %</span></div>
+            <div class="bar-row"><span class="bar-label">Gas</span><div class="bar-track"><div class="bar-fill" style="width:13%;background:#d97706">13 %</div></div><span class="bar-val">13 %</span></div>
+            <div class="bar-row"><span class="bar-label">Solar</span><div class="bar-track"><div class="bar-fill" style="width:11%;background:#eab308">11 %</div></div><span class="bar-val">11 %</span></div>
+            <div class="bar-row"><span class="bar-label">Biomasse</span><div class="bar-track"><div class="bar-fill" style="width:9%;background:#15803d">9 %</div></div><span class="bar-val">9 %</span></div>
+            <div class="bar-row"><span class="bar-label">Atom (abgeschaltet Apr. 23)</span><div class="bar-track"><div class="bar-fill" style="width:1%;background:#6b7280">1 %</div></div><span class="bar-val">1 %</span></div>
+            <div class="bar-row"><span class="bar-label">Sonstiges</span><div class="bar-track"><div class="bar-fill" style="width:5%;background:#9ca3af">5 %</div></div><span class="bar-val">5 %</span></div>
+          </div>
+        </div>
+        <label class="il">Was fällt dir auf, wenn du den Strommix anschaust? Was überrascht dich?</label>
+        <textarea class="ans sm" id="b1-1a" placeholder="Überraschend finde ich, dass … weil …" oninput="mf(this,'b1',1)"></textarea>
+        <label class="il">Deutschland hat das Ziel, bis 2035 mindestens 80 % Strom aus erneuerbaren Quellen zu erzeugen. Was muss sich laut dem Diagramm am meisten verändern, und wie realistisch ist das Ziel?</label>
+        <textarea class="ans" id="b1-1b" placeholder="Um 80 % zu erreichen, müsste … Das ist realistisch / unrealistisch, weil …" oninput="mf(this,'b1',1)"></textarea>
+      </div>
+    </div>
+
+    <!-- B1.2 -->
+    <div class="auf" id="auf-b1-2">
+      <div class="auf-hd">
+        <div class="auf-num" style="background:var(--m6l);color:#166534">B1.2</div>
+        <div class="ahr"><div class="at">💡 Das Netzproblem</div>
+        <div class="atit">Strom erzeugen ist eine Sache – ihn transportieren eine andere</div></div>
+      </div>
+      <div class="auf-body">
+        <div class="ctx tip">
+          <div class="ctl">💡 Das Problem mit dem Stromnetz</div>
+          Windstrom entsteht hauptsächlich im Norden Deutschlands (Küste, Brandenburg). Der Industriebedarf ist aber vor allem im Süden (Bayern, Baden-Württemberg). Das Stromnetz aus den 1950er–70er Jahren war für lokale Versorgung gebaut – nicht für tausende Kilometer Transport. Ergebnis: <strong>Abregelung</strong> – Windräder müssen abgeschaltet werden, weil der Strom nicht transportiert werden kann. 2022 wurden über 8 Milliarden kWh Strom abgeregelt – genug für 2 Millionen Haushalte ein Jahr. Der Netzausbau kommt zu langsam voran: Tausende Kilometer neue Leitungen genehmigt, gebaut werden nur wenige.
+        </div>
+        <label class="il">Erkläre das „Netzproblem" der Energiewende in eigenen Worten – als ob du es einer jüngeren Person erklärst:</label>
+        <textarea class="ans" id="b1-2a" placeholder="Das Problem ist, dass … Man kann es sich so vorstellen wie …" oninput="mf(this,'b1',2)"></textarea>
+        <label class="il">Was könnte man tun, um dieses Problem zu lösen? Nenne mindestens drei Ansätze:</label>
+        <textarea class="ans" id="b1-2b" placeholder="Lösung 1: …&#10;Lösung 2: …&#10;Lösung 3: …" oninput="mf(this,'b1',2)"></textarea>
+        <label class="il">In Brandenburg stehen viele Windräder – aber die Bevölkerung profitiert wenig, weil der Strom in andere Bundesländer fließt. Ist das ungerecht? Was wäre eine faire Lösung?</label>
+        <textarea class="ans" id="b1-2c" placeholder="Ich finde das … weil … Eine faire Lösung wäre …" oninput="mf(this,'b1',2)"></textarea>
+      </div>
+    </div>
+
+    <!-- B1.3 -->
+    <div class="auf" id="auf-b1-3">
+      <div class="auf-hd">
+        <div class="auf-num" style="background:var(--m6l);color:#166534">B1.3</div>
+        <div class="ahr"><div class="at">⚛️ + 🌬️ Der Streit: Atom vs. Erneuerbare</div>
+        <div class="atit">Hätte Deutschland die Atomkraft länger laufen lassen sollen?</div></div>
+      </div>
+      <div class="auf-body">
+        <div class="ctx sc">
+          <div class="ctl">📌 Der Kontext</div>
+          Deutschland hat im April 2023 seine letzten drei Atomkraftwerke abgeschaltet – mitten in der Energiekrise nach dem Ukraine-Krieg. Frankreich und andere EU-Länder setzen weiter auf Atomkraft. In Deutschland stieg nach der Abschaltung kurzzeitig die Kohleverstromung. Gleichzeitig ist Deutschland in manchen Stunden zu 100 % mit erneuerbaren Energien versorgt.
+        </div>
+        <div class="pc">
+          <div class="pcc" style="background:var(--okl)">
+            <div class="pch" style="color:var(--ok)">🔵 Hätte weiterlaufen sollen</div>
+            <textarea placeholder="Argumente: …" oninput="mf(this,'b1',3)"></textarea>
+          </div>
+          <div class="pcc" style="background:var(--errl)">
+            <div class="pch" style="color:var(--err)">🔴 Richtig abgeschaltet</div>
+            <textarea placeholder="Argumente: …" oninput="mf(this,'b1',3)"></textarea>
+          </div>
+        </div>
+        <label class="il">Was ist deine persönliche Position – und mit welchem Argument kommst du am wenigsten klar?</label>
+        <textarea class="ans" id="b1-3" placeholder="Ich bin der Meinung …, aber ich verstehe auch, dass … Am schwierigsten finde ich das Argument, dass …" oninput="mf(this,'b1',3)"></textarea>
+      </div>
+    </div>
+
+    <!-- B1.4 -->
+    <div class="auf" id="auf-b1-4">
+      <div class="auf-hd">
+        <div class="auf-num" style="background:var(--m6l);color:#166534">B1.4</div>
+        <div class="ahr"><div class="at">💰 Kosten der Energiewende</div>
+        <div class="atit">Wer zahlt – und ist das fair?</div></div>
+      </div>
+      <div class="auf-body">
+        <div class="ctx stat">
+          <div class="ctl">📊 Zahlen zur Energiewende</div>
+          Der Strompreis in Deutschland ist einer der höchsten in Europa (ca. 32 Cent/kWh für Haushalte, 2024). Industrie bekommt günstigeren Strom oder Ausnahmen. Die Energiewende kostet schätzungsweise <strong>500–700 Milliarden Euro bis 2045</strong>. Wer zahlt? Hauptsächlich über den Strompreis – also Haushalte und kleine Unternehmen, während Großindustrie oft Vergünstigungen erhält.
+        </div>
+        <label class="il">Ist es fair, dass Haushalte mehr zahlen als Großunternehmen? Begründe:</label>
+        <div class="cg col3">
+          <div class="cb" id="cb-b1-4-fair" onclick="sc('b1-4','fair')">✅ Fair</div>
+          <div class="cb" id="cb-b1-4-unfair" onclick="sc('b1-4','unfair')">❌ Unfair</div>
+          <div class="cb" id="cb-b1-4-kompl2" onclick="sc('b1-4','kompl2')">🤔 Kommt drauf an</div>
+        </div>
+        <textarea class="ans" id="b1-4" placeholder="Meine Begründung …" oninput="mf(this,'b1',4)"></textarea>
+        <label class="il">Die Energiewende kostet viel Geld – das muss irgendwie finanziert werden. Wer sollte deiner Meinung nach die Hauptlast tragen, und warum?</label>
+        <textarea class="ans" id="b1-4b" placeholder="Ich finde, die Hauptlast sollten … tragen, weil …" oninput="mf(this,'b1',4)"></textarea>
+      </div>
+    </div>
+
+    <!-- B1.5 -->
+    <div class="auf" id="auf-b1-5">
+      <div class="auf-hd">
+        <div class="auf-num" style="background:var(--m6l);color:#166534">B1.5</div>
+        <div class="ahr"><div class="at">💧 Wasserstoff – Hoffnungsträger oder Hype?</div>
+        <div class="atit">Die Wasserstoffwirtschaft und ihre Versprechen</div></div>
+      </div>
+      <div class="auf-body">
+        <div class="ki-highlight" style="background:linear-gradient(135deg,#dcfce7,#f0fdf4);border-color:rgba(22,163,74,.25)">
+          <div class="khl" style="color:#166534">🔬 Was ist grüner Wasserstoff?</div>
+          Mit überschüssigem Ökostrom (wenn mehr produziert als verbraucht wird) kann Wasser in Wasserstoff und Sauerstoff aufgespalten werden (Elektrolyse). Dieser <strong>grüne Wasserstoff</strong> kann gespeichert und bei Bedarf wieder in Strom umgewandelt werden – oder direkt als Treibstoff für LKW, Schiffe und Flugzeuge genutzt werden. Vorteil: löst das Speicherproblem! Nachteil: sehr teuer und ineffizient (nur 30–40 % der ursprünglichen Energie kommt zurück).
+        </div>
+        <label class="il">Erkläre, warum Wasserstoff als „Speicher" für Ökostrom interessant ist – und warum er trotzdem kein Allheilmittel ist:</label>
+        <textarea class="ans" id="b1-5a" placeholder="Wasserstoff ist interessant als Speicher, weil …. Er ist aber kein Allheilmittel, weil …" oninput="mf(this,'b1',5)"></textarea>
+        <label class="il">Stell dir vor, du bist Energieminister/in. In welchen Bereichen würdest du Wasserstoff als Energieträger einsetzen – und wo nicht? Begründe:</label>
+        <textarea class="ans" id="b1-5b" placeholder="Ich würde Wasserstoff einsetzen bei: … weil …&#10;Nicht einsetzen bei: … weil …" oninput="mf(this,'b1',5)"></textarea>
+      </div>
+    </div>
+
+    <!-- B1.6 -->
+    <div class="auf" id="auf-b1-6">
+      <div class="auf-hd">
+        <div class="auf-num" style="background:var(--m6l);color:#166534">B1.6</div>
+        <div class="ahr"><div class="at">🏘️ Der Lausitz-Strukturwandel</div>
+        <div class="atit">Wenn eine Region ihre Grundlage verliert</div></div>
+      </div>
+      <div class="auf-body">
+        <div class="ctx sc">
+          <div class="ctl">📌 Lausitz – ein Brandenburger Thema</div>
+          Die Lausitz in Brandenburg und Sachsen war jahrzehntelang eine der wichtigsten Braunkohleregionen Deutschlands. Tausende Menschen arbeiteten in Bergbau und Kraftwerken. Mit dem Kohleausstieg (geplant bis 2038) fallen diese Jobs weg. Der Staat investiert Milliarden in den „Strukturwandel": neue Industrien ansiedeln, Universitäten, Tourismus. Aber: Viele junge Menschen verlassen die Region. Ortschaften wurden für den Tagebau abgebaggert. Gleichzeitig entstehen neue Möglichkeiten durch die Energiewende (Windparks, Wasserstoff-Industrie).
+        </div>
+        <label class="il">Was bedeutet der Braunkohle-Ausstieg für Menschen, die seit Generationen in der Lausitz leben und arbeiten? Versetze dich in eine 55-jährige Bergbau-Mitarbeiterin:</label>
+        <textarea class="ans" id="b1-6a" placeholder="Als 55-jährige Bergbau-Mitarbeiterin würde ich mich … fühlen, weil …" oninput="mf(this,'b1',6)"></textarea>
+        <label class="il">Was würdest du tun, wenn du Bürgermeister/in einer Lausitzer Gemeinde wärst? Nenne drei konkrete Maßnahmen für den Strukturwandel:</label>
+        <textarea class="ans" id="b1-6b" placeholder="1. Ich würde …&#10;2. Ich würde …&#10;3. Ich würde …" oninput="mf(this,'b1',6)"></textarea>
+      </div>
+    </div>
+
+    <!-- B1.7 -->
+    <div class="auf" id="auf-b1-7">
+      <div class="auf-hd">
+        <div class="auf-num" style="background:var(--m6l);color:#166534">B1.7</div>
+        <div class="ahr"><div class="at">✍️ Energiepolitisches Statement</div>
+        <div class="atit">Meine Position zur Energiewende</div></div>
+      </div>
+      <div class="auf-body">
+        <p>Fasse deine Erkenntnisse zusammen: Was ist der schwierigste Teil der Energiewende? Wo siehst du die größten Chancen?</p>
+        <label class="il">Schreibe ein kurzes Statement (ca. 150–200 Wörter) zur Energiewende aus deiner Sicht als Jugendliche/r in Brandenburg:</label>
+        <textarea class="ans lg" id="b1-7" placeholder="Als junger Mensch, der in Brandenburg aufwächst, sehe ich die Energiewende …" oninput="mf(this,'b1',7)"></textarea>
+      </div>
+    </div>
+
+    <div class="abg" style="background:#166534">
+      <h3>Modul B1 abschließen</h3>
+      <p>Trage deinen Namen ein und drucke / speichere deine Arbeit.</p>
+      <div class="abg-row"><input class="ni" id="nm-b1" placeholder="Dein Name" type="text"><button class="btn btn-print" onclick="prnt('b1')">🖨️ Drucken</button></div>
+    </div>
+  </div>
+</div>
+
+<!-- ████ B2: KLIMAPOLITIK ████ -->
+<div id="page-b2" class="page">
+  <div class="mhd">
+    <div class="mk">Modul B2 · Klima &amp; Gerechtigkeit</div>
+    <h2>Klimapolitik &amp; globale Konflikte</h2>
+    <div class="mm"><span class="badge" style="background:var(--m6l);color:var(--m6m)">Klima · Politik · Gerechtigkeit</span><span class="badge" style="background:var(--paper3);color:var(--ink2)">7 Aufgaben · ~35 Min.</span></div>
+  </div>
+  <div class="mbody">
+    <div class="fort"><span class="fi">🌍</span>
+      <div class="ft"><div class="fl">Fortschritt</div><div class="fv" id="b2-fv">0 von 7 Aufgaben</div></div>
+      <div class="fb2"><div class="fbar"><div class="ffill" id="b2-fb" style="width:0%;background:var(--m6m)"></div></div></div>
+    </div>
+
+    <!-- B2.1 -->
+    <div class="auf" id="auf-b2-1">
+      <div class="auf-hd">
+        <div class="auf-num" style="background:var(--m6l);color:#166534">B2.1</div>
+        <div class="ahr"><div class="at">📊 CO₂-Preis: Wie funktioniert das?</div>
+        <div class="atit">Der Emissionshandel und seine Wirkung</div></div>
+      </div>
+      <div class="auf-body">
+        <div class="ki-highlight" style="background:linear-gradient(135deg,#dcfce7,#f0fdf4);border-color:rgba(22,163,74,.25)">
+          <div class="khl" style="color:#166534">📊 CO₂-Bepreisung in Deutschland</div>
+          Seit 2021 gibt es in Deutschland einen nationalen CO₂-Preis für Heizöl, Gas und Benzin: 2021: 25 €/Tonne, 2024: 45 €/Tonne, 2025: 55 €/Tonne (geplant). Das bedeutet: Ein Liter Benzin kostet ca. 13–15 Cent mehr wegen des CO₂-Preises. 1 Liter Heizöl ca. 12 Cent mehr. Die Einnahmen gehen in den Bundeshaushalt – und werden u.a. für die „Klimapauschale" / Klimageld genutzt, das ärmere Haushalte entlasten soll.
+        </div>
+        <label class="il">Der CO₂-Preis macht fossile Energie teurer. Wer trifft das am härtesten – und ist das sozial gerecht?</label>
+        <textarea class="ans" id="b2-1a" placeholder="Am härtesten trifft es …, weil … Das ist (un)gerecht, weil …" oninput="mf(this,'b2',1)"></textarea>
+        <label class="il">Berechne: Eine Familie heizt ihr Haus mit 2.000 Litern Heizöl pro Jahr. Wie viel mehr zahlt sie durch den CO₂-Preis von 45 €/Tonne? (Hinweis: 1 Liter Heizöl = ca. 2,65 kg CO₂)</label>
+        <textarea class="ans sm" id="b2-1b" placeholder="Rechnung: 2000 Liter × 2,65 kg = … kg = … Tonnen CO₂. Kosten: … Tonnen × 45 € = … €" oninput="mf(this,'b2',1)"></textarea>
+      </div>
+    </div>
+
+    <!-- B2.2 -->
+    <div class="auf" id="auf-b2-2">
+      <div class="auf-hd">
+        <div class="auf-num" style="background:var(--m6l);color:#166534">B2.2</div>
+        <div class="ahr"><div class="at">⚖️ Klimagerechtigkeit</div>
+        <div class="atit">Wer verursacht den Klimawandel – wer leidet darunter?</div></div>
+      </div>
+      <div class="auf-body">
+        <div class="data-vis">
+          <div style="font-size:12px;font-weight:600;color:var(--ink2);margin-bottom:12px">Pro-Kopf CO₂-Emissionen ausgewählter Länder (Tonnen/Jahr, 2023)</div>
+          <div class="bar-chart">
+            <div class="bar-row"><span class="bar-label">Katar</span><div class="bar-track"><div class="bar-fill" style="width:97%;background:#dc2626">~31 t</div></div><span class="bar-val">~31 t</span></div>
+            <div class="bar-row"><span class="bar-label">USA</span><div class="bar-track"><div class="bar-fill" style="width:48%;background:#ea580c">~15 t</div></div><span class="bar-val">~15 t</span></div>
+            <div class="bar-row"><span class="bar-label">Deutschland</span><div class="bar-track"><div class="bar-fill" style="width:29%;background:#d97706">~9 t</div></div><span class="bar-val">~9 t</span></div>
+            <div class="bar-row"><span class="bar-label">China</span><div class="bar-track"><div class="bar-fill" style="width:22%;background:#ca8a04">~7 t</div></div><span class="bar-val">~7 t</span></div>
+            <div class="bar-row"><span class="bar-label">Welt-Durchschnitt</span><div class="bar-track"><div class="bar-fill" style="width:15%;background:#65a30d">~4,7 t</div></div><span class="bar-val">~4,7 t</span></div>
+            <div class="bar-row"><span class="bar-label">Indien</span><div class="bar-track"><div class="bar-fill" style="width:6%;background:#16a34a">~2 t</div></div><span class="bar-val">~2 t</span></div>
+            <div class="bar-row"><span class="bar-label">Äthiopien</span><div class="bar-track"><div class="bar-fill" style="width:1%;background:#15803d">0,2 t</div></div><span class="bar-val">0,2 t</span></div>
+          </div>
+        </div>
+        <label class="il">Äthiopien verursacht 0,2 Tonnen CO₂ pro Kopf und ist gleichzeitig extrem vom Klimawandel betroffen (Dürren, Überschwemmungen). Deutschland verursacht 9 Tonnen. Was folgt daraus ethisch für Deutschland?</label>
+        <textarea class="ans" id="b2-2a" placeholder="Aus diesen Daten folgt meiner Meinung nach, dass Deutschland verpflichtet ist …" oninput="mf(this,'b2',2)"></textarea>
+        <label class="il">Indien argumentiert: „Ihr Industrieländer habt euch durch CO₂ reich gemacht – jetzt verbietet ihr uns das. Das ist ungerecht." Wie antwortest du darauf?</label>
+        <textarea class="ans" id="b2-2b" placeholder="Auf dieses Argument antworte ich: …" oninput="mf(this,'b2',2)"></textarea>
+      </div>
+    </div>
+
+    <!-- B2.3–B2.7 – kompakt aber vollständig -->
+    <div class="auf" id="auf-b2-3">
+      <div class="auf-hd">
+        <div class="auf-num" style="background:var(--m6l);color:#166534">B2.3</div>
+        <div class="ahr"><div class="at">🌡️ 1,5-Grad-Ziel – noch realistisch?</div>
+        <div class="atit">Was passiert, wenn wir das Ziel verfehlen?</div></div>
+      </div>
+      <div class="auf-body">
+        <div class="ctx danger">
+          <div class="ctl">⚠️ Aktuelle Prognosen</div>
+          Laut IPCC (2023) wird die Erde sehr wahrscheinlich das 1,5°C-Ziel bis 2035 überschreiten. Bei 2°C Erwärmung: Hunderte Millionen Menschen von extremen Hitzewellen betroffen, Inselstaaten versinken, Korallenriffe zu 99 % zerstört. Bei 3°C: Große Teile der Erde nicht mehr bewohnbar, Massenmigration, Ernteausfälle. Bei 4°C: Katastrophische, schwer umkehrbare Veränderungen.
+        </div>
+        <label class="il">Wie reagierst du auf diese Prognosen? Macht dir das Angst, Gleichgültigkeit, Wut – oder etwas anderes? Begründe ehrlich:</label>
+        <textarea class="ans" id="b2-3a" placeholder="Diese Prognosen lösen bei mir … aus, weil …" oninput="mf(this,'b2',3)"></textarea>
+        <label class="il">Manche sagen: „Dann müssen wir halt CO₂ technisch aus der Luft saugen (Carbon Capture)" statt unseren Lebensstil zu ändern. Andere sagen: Das ist zu teuer und technisch unrealistisch. Was denkst du?</label>
+        <textarea class="ans" id="b2-3b" placeholder="Meine Meinung: …" oninput="mf(this,'b2',3)"></textarea>
+      </div>
+    </div>
+
+    <div class="auf" id="auf-b2-4">
+      <div class="auf-hd">
+        <div class="auf-num" style="background:var(--m6l);color:#166534">B2.4</div>
+        <div class="ahr"><div class="at">🚗 Das Verbrenner-Aus 2035</div>
+        <div class="atit">Keine neuen Benzin-/Diesel-Autos ab 2035 in der EU</div></div>
+      </div>
+      <div class="auf-body">
+        <div class="ctx sc">
+          <div class="ctl">📌 Die EU-Entscheidung</div>
+          Die EU hat beschlossen: Ab 2035 dürfen in der EU keine neuen Pkw mit Verbrennungsmotor (Benzin, Diesel) mehr verkauft werden. Nur noch E-Autos (oder wasserstoffbetriebene Fahrzeuge). Deutschland hatte lange dagegen lobbyiert. Länder wie Polen, Ungarn lehnen das ab. Die Autoindustrie (VW, BMW, Mercedes) sieht Tausende Jobs in Gefahr.
+        </div>
+        <div class="pc">
+          <div class="pcc" style="background:var(--okl)">
+            <div class="pch" style="color:var(--ok)">✅ Das Verbrenner-Aus ist richtig</div>
+            <textarea placeholder="Argumente …" oninput="mf(this,'b2',4)"></textarea>
+          </div>
+          <div class="pcc" style="background:var(--errl)">
+            <div class="pch" style="color:var(--err)">❌ Das Verbrenner-Aus ist falsch</div>
+            <textarea placeholder="Argumente …" oninput="mf(this,'b2',4)"></textarea>
+          </div>
+        </div>
+        <label class="il">Was bedeutet diese Entscheidung für dich persönlich – wenn du in 10 Jahren ein Auto kaufen willst?</label>
+        <textarea class="ans sm" id="b2-4b" placeholder="Für mich persönlich bedeutet das …" oninput="mf(this,'b2',4)"></textarea>
+      </div>
+    </div>
+
+    <div class="auf" id="auf-b2-5">
+      <div class="auf-hd">
+        <div class="auf-num" style="background:var(--m6l);color:#166534">B2.5</div>
+        <div class="ahr"><div class="at">✈️ Klimapolitik und Flugreisen</div>
+        <div class="atit">Was ist fairer: Flugsteuer, Flugverbot oder gar nichts?</div></div>
+      </div>
+      <div class="auf-body">
+        <div class="ctx stat">
+          <div class="ctl">📊 Zahlen zu Flugreisen</div>
+          Ein Flug Frankfurt–New York verursacht ca. 3 Tonnen CO₂ pro Person (entspricht 1/3 des deutschen Jahres-Pro-Kopf-Budgets). 15 % der Deutschen fliegen mehrmals pro Jahr – 50 % der Deutschen fliegen gar nicht. Die reichsten 10 % der Weltbevölkerung verursachen 50 % der Flug-CO₂-Emissionen.
+        </div>
+        <label class="il">Soll es eine starke Flugsteuer geben – so hoch, dass Billigflüge deutlich teurer werden? Begründe mit Pro und Contra:</label>
+        <div class="pc">
+          <div class="pcc" style="background:var(--okl)">
+            <div class="pch" style="color:var(--ok)">✅ Ja, starke Flugsteuer</div>
+            <textarea placeholder="Pro …" oninput="mf(this,'b2',5)"></textarea>
+          </div>
+          <div class="pcc" style="background:var(--errl)">
+            <div class="pch" style="color:var(--err)">❌ Nein, keine Flugsteuer</div>
+            <textarea placeholder="Contra …" oninput="mf(this,'b2',5)"></textarea>
+          </div>
+        </div>
+        <label class="il">Wärst du bereit, für Klimaschutz auf Flugreisen zu verzichten – ehrliche Antwort, mit Begründung?</label>
+        <textarea class="ans sm" id="b2-5b" placeholder="Ehrlich gesagt …, weil …" oninput="mf(this,'b2',5)"></textarea>
+      </div>
+    </div>
+
+    <div class="auf" id="auf-b2-6">
+      <div class="auf-hd">
+        <div class="auf-num" style="background:var(--m6l);color:#166534">B2.6</div>
+        <div class="ahr"><div class="at">🌾 Klimawandel und Landwirtschaft</div>
+        <div class="atit">Brandenburg 2040: Dürre, neue Pflanzen und Konflikte</div></div>
+      </div>
+      <div class="auf-body">
+        <div class="ctx tip">
+          <div class="ctl">💡 Brandenburg und der Klimawandel</div>
+          Brandenburg ist das trockenste Bundesland Deutschlands. Die Sommer werden immer heißer und trockener. 2018, 2019, 2020 waren historisch trockene Jahre mit massiven Ernteausfällen. Gleichzeitig ermöglicht das Klima neue Kulturen: Mais, Sonnenblumen, vielleicht bald Mandeln und Süßkartoffeln. Wälder sterben ab (Fichten, Kiefern). Neue invasive Arten kommen (Tigermücke, Blauzungenkrankheit bei Rindern).
+        </div>
+        <label class="il">Stell dir vor, du bist Landwirt/in in Brandenburg. Was würde sich für dich bis 2040 verändern – positiv und negativ?</label>
+        <textarea class="ans" id="b2-6a" placeholder="Positiv würde sich verändern: …&#10;Negativ würde sich verändern: …" oninput="mf(this,'b2',6)"></textarea>
+        <label class="il">Was müsste die Landwirtschaft in Brandenburg jetzt tun, um sich auf den Klimawandel vorzubereiten?</label>
+        <textarea class="ans" id="b2-6b" placeholder="Konkrete Maßnahmen: …" oninput="mf(this,'b2',6)"></textarea>
+      </div>
+    </div>
+
+    <div class="auf" id="auf-b2-7">
+      <div class="auf-hd">
+        <div class="auf-num" style="background:var(--m6l);color:#166534">B2.7</div>
+        <div class="ahr"><div class="at">💬 Klimaprotest – berechtigt oder nicht?</div>
+        <div class="atit">„Letzte Generation" und Klimakleber – Mittel oder Ärgernis?</div></div>
+      </div>
+      <div class="auf-body">
+        <div class="ctx sc">
+          <div class="ctl">📌 Aktueller Kontext</div>
+          Die „Letzte Generation" klebt sich seit 2022 auf Straßen, schmiert Museen an und blockiert Flughäfen. Sie sagen: Die Klimakatastrophe ist so dringend, dass radikale Aktionen gerechtfertigt sind. Gegner sagen: Das nervt, schadet dem Klimaschutz und ist undemokratisch. Manche wurden zu Gefängnisstrafen verurteilt.
+        </div>
+        <div class="ethik-scale">
+          <div class="es-item">
+            <div class="es-q">„Klimaproteste mit ziviler Unruhe (Straße blockieren) sind gerechtfertigt, wenn demokratische Mittel versagen."</div>
+            <div class="progress-dots" id="pd-b2-7">
+              <span style="font-size:12px;color:var(--ink3);min-width:80px">Stimme nicht zu</span>
+              <div class="pd" data-v="1" onclick="selDot('b2-7',1,this)" style="color:#dc2626">1</div>
+              <div class="pd" data-v="2" onclick="selDot('b2-7',2,this)" style="color:#ea580c">2</div>
+              <div class="pd" data-v="3" onclick="selDot('b2-7',3,this)" style="color:#d97706">3</div>
+              <div class="pd" data-v="4" onclick="selDot('b2-7',4,this)" style="color:#65a30d">4</div>
+              <div class="pd" data-v="5" onclick="selDot('b2-7',5,this)" style="color:#16a34a">5</div>
+              <span style="font-size:12px;color:var(--ink3)">Stimme voll zu</span>
+            </div>
+          </div>
+        </div>
+        <label class="il">Begründe deine Bewertung ausführlich. Was findest du an Klimaprotesten richtig, was problematisch?</label>
+        <textarea class="ans" id="b2-7" placeholder="Ich bewerte Klimaproteste so, weil …" oninput="mf(this,'b2',7)"></textarea>
+      </div>
+    </div>
+
+    <div class="abg" style="background:#166534">
+      <h3>Modul B2 abschließen</h3>
+      <div class="abg-row"><input class="ni" id="nm-b2" placeholder="Dein Name" type="text"><button class="btn btn-print" onclick="prnt('b2')">🖨️ Drucken</button></div>
+    </div>
+  </div>
+</div>
+
+<!-- ████ C1: ZUKUNFT DER ARBEIT ████ -->
+<div id="page-c1" class="page">
+  <div class="mhd">
+    <div class="mk">Modul C1 · Arbeitswelt &amp; Gesellschaft</div>
+    <h2>Zukunft der Arbeit: New Work &amp; Mindestlohn</h2>
+    <div class="mm"><span class="badge" style="background:var(--m7l);color:var(--m7m)">Arbeit · Wirtschaft · Gesellschaft</span><span class="badge" style="background:var(--paper3);color:var(--ink2)">8 Aufgaben · ~40 Min.</span></div>
+  </div>
+  <div class="mbody">
+    <div class="fort"><span class="fi">🏢</span>
+      <div class="ft"><div class="fl">Fortschritt</div><div class="fv" id="c1-fv">0 von 8 Aufgaben</div></div>
+      <div class="fb2"><div class="fbar"><div class="ffill" id="c1-fb" style="width:0%;background:var(--m7m)"></div></div></div>
+    </div>
+
+    <div class="auf" id="auf-c1-1">
+      <div class="auf-hd">
+        <div class="auf-num" style="background:var(--m7l);color:var(--m7c,#7c2d12)">C1.1</div>
+        <div class="ahr"><div class="at">💶 Mindestlohn: Genug zum Leben?</div>
+        <div class="atit">12,41 € / Stunde – reicht das in Deutschland?</div></div>
+      </div>
+      <div class="auf-body">
+        <div class="ctx stat">
+          <div class="ctl">📊 Mindestlohn in Deutschland</div>
+          Seit 2015 gibt es in Deutschland einen gesetzlichen Mindestlohn. 2024: <strong>12,41 €/Stunde</strong>. Bei 40h/Woche und 21,75 Arbeitstagen im Monat ergibt das ca. <strong>2.154 € brutto / ~1.600 € netto</strong>. Die DGB-Gewerkschaft fordert 14 €, Arbeitgeber warnen vor Jobverlusten. In Frankreich: 11,27 €, Niederlande: ~13,27 €, Bulgarien: 3,08 €.
+        </div>
+        <label class="il">Berechne: Kann man in deiner Stadt / Heimatgemeinde von 1.600 € netto im Monat leben? Erstelle eine realistische Aufstellung:</label>
+        <div class="calc-box">
+          <div class="brow"><span class="bc">🏠 Miete inkl. NK (Single-Wohnung)</span><input type="number" id="c1-miete" min="0" step="10" value="0" oninput="calcC1()"> €</div>
+          <div class="brow"><span class="bc">🛒 Lebensmittel</span><input type="number" id="c1-food" min="0" step="10" value="0" oninput="calcC1()"> €</div>
+          <div class="brow"><span class="bc">🚌 Fahrtkosten</span><input type="number" id="c1-fahrt" min="0" step="10" value="0" oninput="calcC1()"> €</div>
+          <div class="brow"><span class="bc">📱 Handy &amp; Internet</span><input type="number" id="c1-handy" min="0" step="10" value="0" oninput="calcC1()"> €</div>
+          <div class="brow"><span class="bc">⚡ Strom / Nebenkosten extra</span><input type="number" id="c1-strom" min="0" step="10" value="0" oninput="calcC1()"> €</div>
+          <div class="brow"><span class="bc">🎬 Freizeit &amp; Sonstiges</span><input type="number" id="c1-sonst" min="0" step="10" value="0" oninput="calcC1()"> €</div>
+          <div class="btotal" id="c1-result" style="background:var(--paper3);color:var(--ink2)">Gesamt: 0 €</div>
+        </div>
+        <label class="il">Reicht der Mindestlohn in deiner Region? Was ist dein Fazit?</label>
+        <textarea class="ans" id="c1-1b" placeholder="Mein Ergebnis: Mit den Ausgaben von … € und einem Netto von 1.600 € …" oninput="mf(this,'c1',1)"></textarea>
+      </div>
+    </div>
+
+    <div class="auf" id="auf-c1-2">
+      <div class="auf-hd">
+        <div class="auf-num" style="background:var(--m7l);color:#7c2d12">C1.2</div>
+        <div class="ahr"><div class="at">🏠 Homeoffice – Segen oder Fluch?</div>
+        <div class="atit">Corona hat die Arbeitswelt dauerhaft verändert</div></div>
+      </div>
+      <div class="auf-body">
+        <div class="ctx stat">
+          <div class="ctl">📊 Homeoffice in Zahlen (2024)</div>
+          Ca. 30 % der deutschen Arbeitnehmer arbeiten regelmäßig im Homeoffice. Tech-Unternehmen wie SAP, Telekom erlauben bis zu 100 % Homeoffice. Andere Unternehmen (Amazon, Tesla) fordern 5 Tage/Woche im Büro. Studien zeigen: Produktivität im Homeoffice ist bei konzentrierten Aufgaben höher, bei Teamarbeit und Kreativität tendenziell schlechter. Jüngere Arbeitnehmer leiden stärker unter sozialer Isolation im Homeoffice.
+        </div>
+        <div class="matrix">
+          <div class="matrix-cell" style="background:var(--okl)">
+            <div class="mch" style="color:var(--ok)">✅ Vorteile Homeoffice (für Arbeitnehmer)</div>
+            <textarea class="ti-tbl" style="border:none;min-height:80px;width:100%;font-family:'Sora',sans-serif;font-size:13px;resize:vertical" oninput="mf(this,'c1',2)"></textarea>
+          </div>
+          <div class="matrix-cell" style="background:var(--errl)">
+            <div class="mch" style="color:var(--err)">❌ Nachteile Homeoffice (für Arbeitnehmer)</div>
+            <textarea class="ti-tbl" style="border:none;min-height:80px;width:100%;font-family:'Sora',sans-serif;font-size:13px;resize:vertical" oninput="mf(this,'c1',2)"></textarea>
+          </div>
+          <div class="matrix-cell" style="background:#eff6ff">
+            <div class="mch" style="color:#1d4ed8">✅ Vorteile Homeoffice (für Unternehmen)</div>
+            <textarea class="ti-tbl" style="border:none;min-height:80px;width:100%;font-family:'Sora',sans-serif;font-size:13px;resize:vertical" oninput="mf(this,'c1',2)"></textarea>
+          </div>
+          <div class="matrix-cell" style="background:#fef9c3">
+            <div class="mch" style="color:#713f12">❌ Nachteile Homeoffice (für Unternehmen)</div>
+            <textarea class="ti-tbl" style="border:none;min-height:80px;width:100%;font-family:'Sora',sans-serif;font-size:13px;resize:vertical" oninput="mf(this,'c1',2)"></textarea>
+          </div>
+        </div>
+        <label class="il">Würdest du in deinem zukünftigen Beruf lieber im Homeoffice oder im Büro arbeiten – und warum?</label>
+        <textarea class="ans sm" id="c1-2b" placeholder="Ich würde lieber … arbeiten, weil …" oninput="mf(this,'c1',2)"></textarea>
+      </div>
+    </div>
+
+    <div class="auf" id="auf-c1-3">
+      <div class="auf-hd">
+        <div class="auf-num" style="background:var(--m7l);color:#7c2d12">C1.3</div>
+        <div class="ahr"><div class="at">📅 Vier-Tage-Woche</div>
+        <div class="atit">Weniger arbeiten – gleicher Lohn. Utopie oder Zukunft?</div></div>
+      </div>
+      <div class="auf-body">
+        <div class="ki-highlight" style="background:linear-gradient(135deg,#ffedd5,#fef9f5);border-color:rgba(234,88,12,.25)">
+          <div class="khl" style="color:#c2410c">📊 Studienergebnisse zur Vier-Tage-Woche</div>
+          Island testete 2020–2022 eine 4-Tage-Woche mit gleichem Gehalt für über 2.500 Beschäftigte: Produktivität blieb gleich oder stieg, Krankenstand sank, Zufriedenheit stieg deutlich. Großbritannien testete 2022/23 mit 61 Unternehmen: 89 % behielten die Vier-Tage-Woche nach dem Experiment bei. Microsoft Japan: Produktivität stieg um 40 %. Kritiker: Nicht in allen Branchen umsetzbar (Gastronomie, Pflege, Handel).
+        </div>
+        <label class="il">Wärst du für eine gesetzliche Vier-Tage-Woche in Deutschland? Beziehe alle Seiten ein (Arbeitnehmer, Arbeitgeber, Gesellschaft):</label>
+        <div class="cg col3">
+          <div class="cb" id="cb-c1-3-ja" onclick="sc('c1-3','ja')">✅ Ja, gesetzlich einführen</div>
+          <div class="cb" id="cb-c1-3-nein" onclick="sc('c1-3','nein')">❌ Nein, zu viele Probleme</div>
+          <div class="cb" id="cb-c1-3-frei" onclick="sc('c1-3','frei')">🔄 Freiwillig je Betrieb</div>
+        </div>
+        <textarea class="ans" id="c1-3" placeholder="Meine Position und Begründung …" oninput="mf(this,'c1',3)"></textarea>
+        <label class="il">In welchen Berufen wäre eine Vier-Tage-Woche schwer umsetzbar – und warum?</label>
+        <textarea class="ans sm" id="c1-3b" placeholder="Schwierig wäre es in …, weil …" oninput="mf(this,'c1',3)"></textarea>
+      </div>
+    </div>
+
+    <div class="auf" id="auf-c1-4">
+      <div class="auf-hd">
+        <div class="auf-num" style="background:var(--m7l);color:#7c2d12">C1.4</div>
+        <div class="ahr"><div class="at">🧑‍⚕️ Fachkräftemangel</div>
+        <div class="atit">Deutschland sucht dringend – aber wen?</div></div>
+      </div>
+      <div class="auf-body">
+        <div class="ctx stat">
+          <div class="ctl">📊 Fachkräftemangel 2024</div>
+          Ca. <strong>700.000 offene Stellen</strong> in Deutschland (2024). Am stärksten betroffen: Pflege und Gesundheit (200.000+ fehlende Pflegekräfte), Handwerk (Elektriker, Klempner, Maurer), IT (100.000+ fehlende IT-Fachkräfte), Erzieher/innen. Ursachen: Geburtenstarke Jahrgänge gehen in Rente, zu wenige Ausbildungsabschlüsse in Mangelberufen, Abwanderung aus einigen Branchen.
+        </div>
+        <label class="il">Der Fachkräftemangel bietet dir als Schulabgänger/in Chancen – welche?</label>
+        <textarea class="ans sm" id="c1-4a" placeholder="Für mich persönlich bedeutet der Fachkräftemangel, dass ich …" oninput="mf(this,'c1',4)"></textarea>
+        <label class="il">Manche sagen: „Wir müssen mehr qualifizierte Menschen aus dem Ausland anwerben." Andere sagen: „Erst alle Deutschen ausbilden." Was ist deine Position?</label>
+        <textarea class="ans" id="c1-4b" placeholder="Ich finde …, weil … Mein Vorschlag wäre …" oninput="mf(this,'c1',4)"></textarea>
+        <label class="il">Warum entscheiden sich so wenige junge Menschen für Pflegeberufe, obwohl sie dringend gebraucht werden? Und was könnte man dagegen tun?</label>
+        <textarea class="ans" id="c1-4c" placeholder="Gründe, warum Pflege unattraktiv ist: … Mögliche Lösungen: …" oninput="mf(this,'c1',4)"></textarea>
+      </div>
+    </div>
+
+    <div class="auf" id="auf-c1-5">
+      <div class="auf-hd">
+        <div class="auf-num" style="background:var(--m7l);color:#7c2d12">C1.5</div>
+        <div class="ahr"><div class="at">⚖️ Lohnungleichheit</div>
+        <div class="atit">Warum verdienen Fußballstars Millionen und Pflegekräfte wenig?</div></div>
+      </div>
+      <div class="auf-body">
+        <div class="ctx sc">
+          <div class="ctl">📌 Zahlen zur Ungleichheit</div>
+          Top-10-Fußballstars verdienen pro Woche mehr als eine Pflegefachkraft in ihrem ganzen Leben. Ein DAX-Vorstandschef verdient im Schnitt 58× so viel wie ein durchschnittlicher Mitarbeiter. Gleichzeitig: Pflegerinnen, Kassiererinnen, Müllabfuhr-Mitarbeiter sind systemrelevant, wurden in der Pandemie gefeiert – und verdienen weiterhin wenig.
+        </div>
+        <label class="il">Wie erklärst du dir, dass Berufe mit hoher gesellschaftlicher Notwendigkeit (Pflege, Erzieher, Müllabfuhr) oft schlechter bezahlt werden als andere?</label>
+        <textarea class="ans" id="c1-5a" placeholder="Das liegt daran, dass …" oninput="mf(this,'c1',5)"></textarea>
+        <label class="il">Findest du das gerecht? Und: Wer oder was bestimmt eigentlich, wie viel ein Beruf wert ist?</label>
+        <textarea class="ans" id="c1-5b" placeholder="Ich finde das (un)gerecht, weil … Den Wert eines Berufs bestimmt …" oninput="mf(this,'c1',5)"></textarea>
+      </div>
+    </div>
+
+    <div class="auf" id="auf-c1-6">
+      <div class="auf-hd">
+        <div class="auf-num" style="background:var(--m7l);color:#7c2d12">C1.6</div>
+        <div class="ahr"><div class="at">🌱 New Work und Sinnsuche</div>
+        <div class="atit">Generation Z will mehr als nur Geld</div></div>
+      </div>
+      <div class="auf-body">
+        <div class="ki-highlight" style="background:linear-gradient(135deg,#ffedd5,#fef9f5);border-color:rgba(234,88,12,.25)">
+          <div class="khl" style="color:#c2410c">📊 Was Gen Z (deine Generation) vom Beruf erwartet</div>
+          Laut Studien (Deloitte Global, 2023): 52 % der Gen Z sagen, Sinnhaftigkeit der Arbeit ist wichtiger als Gehalt. 77 % wollen flexible Arbeitszeiten. 60 % bevorzugen Unternehmen mit klaren Werten (Nachhaltigkeit, Diversity). Gleichzeitig: Hohe Burnout-Raten auch bei Jungen. Das Konzept <strong>„New Work"</strong> (Frithjof Bergmann) beschreibt Arbeit, die Menschen wirklich wollen – nicht nur Arbeit, die sie müssen.
+        </div>
+        <label class="il">Trifft das auf dich zu? Was erwartest du von deinem zukünftigen Arbeitsleben – sei ehrlich, auch wenn es „uncool" klingt, wenn du vor allem Geld verdienen willst:</label>
+        <textarea class="ans" id="c1-6a" placeholder="Von meiner zukünftigen Arbeit erwarte ich vor allem …" oninput="mf(this,'c1',6)"></textarea>
+        <label class="il">Was würde dich dazu bringen, einen schlechter bezahlten Beruf zu wählen, der dir mehr Sinn gibt?</label>
+        <textarea class="ans sm" id="c1-6b" placeholder="Ich würde weniger Geld in Kauf nehmen, wenn …" oninput="mf(this,'c1',6)"></textarea>
+      </div>
+    </div>
+
+    <div class="auf" id="auf-c1-7">
+      <div class="auf-hd">
+        <div class="auf-num" style="background:var(--m7l);color:#7c2d12">C1.7</div>
+        <div class="ahr"><div class="at">🤝 Gewerkschaften – noch zeitgemäß?</div>
+        <div class="atit">Warum kämpfen Gewerkschaften für Löhne – und warum streiken Lokführer?</div></div>
+      </div>
+      <div class="auf-body">
+        <div class="ctx sc">
+          <div class="ctl">📌 GDL-Streik 2024 – Auslöser</div>
+          Die Gewerkschaft der Lokführer (GDL) hat 2024 in mehreren Streikwellen den Bahnverkehr in Deutschland fast zum Erliegen gebracht. Forderung: Mehr Lohn und – besonders kontrovers – die Einführung der 35-Stunden-Woche bei gleichem Gehalt. Die Bahn lehnte ab. Millionen von Pendlern und Reisenden waren betroffen. Manche nennen das Streikrecht überholt, andere nennen es unabdingbar.
+        </div>
+        <label class="il">Gewerkschaften sagen: Ohne Streikrecht haben Arbeitnehmer keine Machtmittel gegenüber Arbeitgebern. Was hältst du von dieser Aussage?</label>
+        <textarea class="ans" id="c1-7a" placeholder="Ich finde …, weil …" oninput="mf(this,'c1',7)"></textarea>
+        <label class="il">Darf eine Gewerkschaft streiken, wenn der Streik Millionen unbeteiligte Menschen trifft (Pendler, Krankenhäuser)? Wo liegt die Grenze?</label>
+        <textarea class="ans" id="c1-7b" placeholder="Ich finde, dass … Streiks gerechtfertigt sind, wenn … aber nicht, wenn …" oninput="mf(this,'c1',7)"></textarea>
+      </div>
+    </div>
+
+    <div class="auf" id="auf-c1-8">
+      <div class="auf-hd">
+        <div class="auf-num" style="background:var(--m7l);color:#7c2d12">C1.8</div>
+        <div class="ahr"><div class="at">🗺️ Mein Berufsbild 2040</div>
+        <div class="atit">Wie sieht mein Arbeitsleben in 20 Jahren aus?</div></div>
+      </div>
+      <div class="auf-body">
+        <p>Auf Basis dieses Moduls: Entwirf ein realistisches Bild deines Arbeitslebens im Jahr 2040.</p>
+        <label class="il">Beschreibe einen typischen Arbeitstag für dich im Jahr 2040:</label>
+        <textarea class="ans lg" id="c1-8a" placeholder="Im Jahr 2040 arbeite ich als … Ein typischer Tag sieht so aus: …" oninput="mf(this,'c1',8)"></textarea>
+        <label class="il">Was hast du jetzt (2024) getan / wirst du tun, um dieses Ziel zu erreichen?</label>
+        <textarea class="ans" id="c1-8b" placeholder="Um dieses Ziel zu erreichen, tue / habe ich getan: …" oninput="mf(this,'c1',8)"></textarea>
+      </div>
+    </div>
+
+    <div class="abg" style="background:#7c2d12">
+      <h3>Modul C1 abschließen</h3>
+      <div class="abg-row"><input class="ni" id="nm-c1" placeholder="Dein Name" type="text"><button class="btn btn-print" onclick="prnt('c1')">🖨️ Drucken</button></div>
+    </div>
+  </div>
+</div>
+
+<!-- ████ D1: DIGITALER KONSUM ████ -->
+<div id="page-d1" class="page">
+  <div class="mhd">
+    <div class="mk">Modul D1 · Konsum &amp; Digitalisierung</div>
+    <h2>Digitaler Konsum: Algorithmen, Abo-Fallen &amp; Influencer</h2>
+    <div class="mm"><span class="badge" style="background:var(--m8l);color:var(--m8m)">Konsum · Medien · Psychologie</span><span class="badge" style="background:var(--paper3);color:var(--ink2)">8 Aufgaben · ~40 Min.</span></div>
+  </div>
+  <div class="mbody">
+    <div class="fort"><span class="fi">📱</span>
+      <div class="ft"><div class="fl">Fortschritt</div><div class="fv" id="d1-fv">0 von 8 Aufgaben</div></div>
+      <div class="fb2"><div class="fbar"><div class="ffill" id="d1-fb" style="width:0%;background:var(--m8m)"></div></div></div>
+    </div>
+
+    <div class="auf" id="auf-d1-1">
+      <div class="auf-hd">
+        <div class="auf-num" style="background:var(--m8l);color:#581c87">D1.1</div>
+        <div class="ahr"><div class="at">🧠 Wie Algorithmen dein Kaufverhalten steuern</div>
+        <div class="atit">Du glaubst, du entscheidest – aber wirklich?</div></div>
+      </div>
+      <div class="auf-body">
+        <div class="ki-highlight" style="background:linear-gradient(135deg,#f3e8ff,#faf5ff);border-color:rgba(147,51,234,.2)">
+          <div class="khl" style="color:#7e22ce">🧠 Wie Empfehlungsalgorithmen funktionieren</div>
+          Amazon, TikTok, Instagram, Spotify – alle nutzen Algorithmen, die analysieren: Was hast du angeschaut? Wie lange? Was haben ähnliche Nutzer gekauft? Dann zeigen sie dir gezielt das, was dich wahrscheinlich zum Kauf oder langen Verweilen animiert. Deine Aufmerksamkeit ist das Produkt. Amazon generiert ca. 35 % seines Umsatzes durch Algorithmus-Empfehlungen. TikTok-Nutzer verbringen durchschnittlich 90 Minuten/Tag auf der App – optimiert von Algorithmen.
+        </div>
+        <label class="il">Denk an einen Kauf, den du kürzlich gemacht hast, oder etwas, das du sehr lange auf TikTok / YouTube angeschaut hast. Wie viel davon war wirklich deine freie Entscheidung – und wie viel hat der Algorithmus gelenkt?</label>
+        <textarea class="ans" id="d1-1a" placeholder="Ich habe kürzlich … Das war meine eigene Idee / Das hat mir der Algorithmus empfohlen … Ich schätze, ca. … % war Algorithmus." oninput="mf(this,'d1',1)"></textarea>
+        <label class="il">Stört dich das – oder findest du es praktisch? Begründe deine ehrliche Meinung:</label>
+        <textarea class="ans sm" id="d1-1b" placeholder="Ehrlich gesagt finde ich das … weil …" oninput="mf(this,'d1',1)"></textarea>
+      </div>
+    </div>
+
+    <div class="auf" id="auf-d1-2">
+      <div class="auf-hd">
+        <div class="auf-num" style="background:var(--m8l);color:#581c87">D1.2</div>
+        <div class="ahr"><div class="at">⚠️ Abo-Fallen &amp; Dark Patterns</div>
+        <div class="atit">Wie Unternehmen dich absichtlich verwirren</div></div>
+      </div>
+      <div class="auf-body">
+        <div class="ctx danger">
+          <div class="ctl">⚠️ Was sind Dark Patterns?</div>
+          <strong>Dark Patterns</strong> sind absichtlich verwirrende Design-Entscheidungen auf Websites und Apps, die Nutzer dazu bringen, etwas zu tun, was sie eigentlich nicht wollen. Beispiele: Das Abo-Kündigen ist 10 Klicks tief versteckt, das Abschließen eines Abos ist 2 Klicks. „Nein danke, ich will kein kostenloses Probeabo" (als schlechte Option formuliert). Cookie-Banner: „Alle akzeptieren" groß und grün, „Ablehnen" klein und grau.
+        </div>
+        <label class="il">Hast du schon mal aus Versehen ein Abo abgeschlossen oder etwas bestellt, was du nicht wolltest? Beschreibe die Situation:</label>
+        <textarea class="ans sm" id="d1-2a" placeholder="Mir ist passiert, dass …" oninput="mf(this,'d1',2)"></textarea>
+        <label class="il">Wie erkennst du Dark Patterns, und was tust du, um dich davor zu schützen?</label>
+        <textarea class="ans sm" id="d1-2b" placeholder="Ich erkenne Dark Patterns an … Ich schütze mich, indem …" oninput="mf(this,'d1',2)"></textarea>
+        <label class="il">Sind Dark Patterns illegal? Sollen sie verboten werden – und wäre das umsetzbar?</label>
+        <textarea class="ans sm" id="d1-2c" placeholder="Dark Patterns sind (nicht) illegal, weil … Ein Verbot wäre (un)realistisch, weil …" oninput="mf(this,'d1',2)"></textarea>
+      </div>
+    </div>
+
+    <div class="auf" id="auf-d1-3">
+      <div class="auf-hd">
+        <div class="auf-num" style="background:var(--m8l);color:#581c87">D1.3</div>
+        <div class="ahr"><div class="at">🎭 Influencer-Marketing</div>
+        <div class="atit">Werbung, die sich wie Freundschaft anfühlt</div></div>
+      </div>
+      <div class="auf-body">
+        <div class="ctx stat">
+          <div class="ctl">📊 Influencer-Markt 2024</div>
+          Der weltweite Influencer-Marketing-Markt: ca. 24 Milliarden USD (2024). Ein Mega-Influencer (10+ Mio. Follower) verdient 50.000–1,8 Mio. USD pro Post. Micro-Influencer (10.000–100.000 Follower) gelten als authentischer und erzielen oft höhere Engagement-Raten. Laut Studie: 49 % der Gen Z haben schon ein Produkt gekauft, das ein Influencer empfohlen hat. Problem: Kennzeichnungspflicht wird oft ignoriert.
+        </div>
+        <label class="il">Folgst du Influencern? Hast du schon mal etwas gekauft oder in Betracht gezogen, weil ein Influencer es empfohlen hat? Sei ehrlich:</label>
+        <textarea class="ans sm" id="d1-3a" placeholder="Ich folge … Durch Empfehlungen habe ich schon … gekauft / in Betracht gezogen, weil …" oninput="mf(this,'d1',3)"></textarea>
+        <label class="il">Was ist der Unterschied zwischen einer empfohlenen Werbung von einem Influencer und einer klassischen Fernsehwerbung? Warum wirkt Influencer-Werbung oft überzeugender?</label>
+        <textarea class="ans" id="d1-3b" placeholder="Der Unterschied ist …. Influencer wirken überzeugender, weil …" oninput="mf(this,'d1',3)"></textarea>
+        <label class="il">Stell dir vor, du bist Influencer und ein Unternehmen bietet dir 5.000 € für einen Produktpost – aber du findest das Produkt eigentlich nicht gut. Was tust du?</label>
+        <div class="cg col3">
+          <div class="cb" id="cb-d1-3-ja" onclick="sc('d1-3','ja')">💰 Ich mache den Deal</div>
+          <div class="cb" id="cb-d1-3-nein" onclick="sc('d1-3','nein')">❌ Ich lehne ab</div>
+          <div class="cb" id="cb-d1-3-ehr" onclick="sc('d1-3','ehr')">💬 Ich weise ehrlich drauf hin</div>
+        </div>
+        <textarea class="ans sm" id="d1-3c" placeholder="Ich würde … tun, weil …" oninput="mf(this,'d1',3)"></textarea>
+      </div>
+    </div>
+
+    <div class="auf" id="auf-d1-4">
+      <div class="auf-hd">
+        <div class="auf-num" style="background:var(--m8l);color:#581c87">D1.4</div>
+        <div class="ahr"><div class="at">🛍️ SHEIN, Temu &amp; der Fast-Fashion-Algorithmus</div>
+        <div class="atit">Wie Online-Plattformen Billigkonsum normalisieren</div></div>
+      </div>
+      <div class="auf-body">
+        <div class="ctx danger">
+          <div class="ctl">⚠️ SHEIN und Temu – die Schattenseiten</div>
+          SHEIN produziert täglich bis zu 10.000 neue Kleidungsmodelle, viele unter 5 €. Temu wirbt aktiv auf TikTok mit extremen Rabatten. Untersuchungen zeigen: Schadstoffe in Produkten (Blei, Formaldehyd), Löhne weit unter deutschem Mindestlohn bei chinesischen Arbeitern, keine Transparenz in der Lieferkette. Gleichzeitig nutzen Millionen Menschen diese Apps – auch in Deutschland ist Temu 2023/24 eine der meistgenutzten Shopping-Apps geworden.
+        </div>
+        <label class="il">Nutzt du SHEIN, Temu oder ähnliche Plattformen? Wenn ja, warum? Wenn nein, warum nicht?</label>
+        <textarea class="ans sm" id="d1-4a" placeholder="Ich nutze / nutze nicht …, weil …" oninput="mf(this,'d1',4)"></textarea>
+        <label class="il">Wie reagierst du auf die Informationen zu Schadstoffen und Arbeitsbedingungen? Verändert das dein Kaufverhalten – oder überwiegt der günstige Preis?</label>
+        <textarea class="ans" id="d1-4b" placeholder="Diese Informationen … mein Kaufverhalten, weil … Letztendlich würde ich …" oninput="mf(this,'d1',4)"></textarea>
+      </div>
+    </div>
+
+    <div class="auf" id="auf-d1-5">
+      <div class="auf-hd">
+        <div class="auf-num" style="background:var(--m8l);color:#581c87">D1.5</div>
+        <div class="ahr"><div class="at">📲 Social Media &amp; Selbstbild</div>
+        <div class="atit">Wenn Instagram mein Konsumverhalten und Selbstbild formt</div></div>
+      </div>
+      <div class="auf-body">
+        <div class="ctx stat">
+          <div class="ctl">📊 Aktuelle Studien</div>
+          Facebook (Meta) interne Studien (2021, durch Whistleblower bekannt): Instagram macht einem von drei Teenager-Mädchen das Selbstbild schlechter. Nutzer, die mehr Zeit auf sozialen Medien verbringen, geben im Schnitt 20–30 % mehr für Konsumgüter aus. „FOMO" (Fear of Missing Out) ist ein psychologisches Phänomen, das durch Social Media verstärkt wird und zu Impulskäufen führt.
+        </div>
+        <label class="il">Erkennst du bei dir selbst, dass Social Media dein Selbstbild oder dein Konsumverhalten beeinflusst? Sei ehrlich und konkret:</label>
+        <textarea class="ans" id="d1-5a" placeholder="Ich bemerke, dass Social Media … mein Selbstbild beeinflusst. Mein Kaufverhalten wird durch Social Media … Zum Beispiel habe ich kürzlich …" oninput="mf(this,'d1',5)"></textarea>
+        <label class="il">Sollten Plattformen wie Instagram gesetzlich dazu verpflichtet werden, Jugendliche stärker zu schützen (z.B. Zeitlimits, keine Werbung unter 16)? Ist das umsetzbar?</label>
+        <textarea class="ans" id="d1-5b" placeholder="Ich finde, dass … Eine mögliche Regelung wäre … Das wäre (un)realistisch, weil …" oninput="mf(this,'d1',5)"></textarea>
+      </div>
+    </div>
+
+    <div class="auf" id="auf-d1-6">
+      <div class="auf-hd">
+        <div class="auf-num" style="background:var(--m8l);color:#581c87">D1.6</div>
+        <div class="ahr"><div class="at">💳 Buy Now Pay Later &amp; Schulden</div>
+        <div class="atit">Klarna, PayPal Ratenzahlung und die Schuldenfalle</div></div>
+      </div>
+      <div class="auf-body">
+        <div class="ctx danger">
+          <div class="ctl">⚠️ „Jetzt kaufen, später zahlen"</div>
+          Dienste wie Klarna, Afterpay oder Paypal-Ratenkauf ermöglichen es, sofort zu kaufen und erst in 30 Tagen oder in Raten zu zahlen. Das klingt praktisch – führt aber oft zu Überschuldung. Klarna meldete 2023, dass 40 % seiner deutschen Nutzer schon mal eine Zahlung verpasst haben. Bei jungen Erwachsenen (18–25) steigt die Überschuldungsrate stark. Verbraucherzentrale warnt: Die Zinssätze bei Ratenzahlung können 15–30 % p.a. betragen.
+        </div>
+        <label class="il">Hast du schon mal „Jetzt kaufen, später zahlen" genutzt? Was war deine Erfahrung? Wenn nicht: Würdest du es nutzen?</label>
+        <textarea class="ans sm" id="d1-6a" placeholder="Meine persönliche Erfahrung / Meinung dazu: …" oninput="mf(this,'d1',6)"></textarea>
+        <label class="il">Welchen Rat würdest du einem 16-jährigen Freund geben, der Klarna nutzen will, um sich sofort neue Schuhe für 120 € zu kaufen, die er sich eigentlich nicht leisten kann?</label>
+        <textarea class="ans" id="d1-6b" placeholder="Mein Rat an ihn/sie wäre …" oninput="mf(this,'d1',6)"></textarea>
+      </div>
+    </div>
+
+    <div class="auf" id="auf-d1-7">
+      <div class="auf-hd">
+        <div class="auf-num" style="background:var(--m8l);color:#581c87">D1.7</div>
+        <div class="ahr"><div class="at">🔐 Datenschutz als Währung</div>
+        <div class="atit">„Wenn das Produkt kostenlos ist, bist du das Produkt"</div></div>
+      </div>
+      <div class="auf-body">
+        <div class="ctx tip">
+          <div class="ctl">💡 Das Geschäftsmodell</div>
+          Google, Instagram, TikTok, WhatsApp, Gmail – kostenlos für Nutzer, milliardenschwere Unternehmen. Das Geschäftsmodell: Daten sammeln → Nutzerprofile erstellen → personalisierte Werbung verkaufen. Meta (Facebook) macht ca. <strong>14,85 € pro europäischem Nutzer pro Quartal</strong> allein durch Werbung. Du bist nicht der Kunde – du bist das Produkt.
+        </div>
+        <label class="il">Würdest du für eine datenschutzfreundliche Version von Instagram / TikTok bezahlen, die keine Werbung zeigt und keine Daten sammelt? Wie viel im Monat wäre akzeptabel?</label>
+        <div style="display:flex;align-items:center;gap:12px;margin:12px 0;flex-wrap:wrap">
+          <span style="font-size:13.5px;color:var(--ink2)">Ich würde zahlen:</span>
+          <input type="number" min="0" max="50" value="0" id="d1-7preis" style="width:90px;padding:8px 10px;border:1.5px solid var(--bdr);border-radius:7px;font-size:14px;font-family:'Sora',sans-serif;text-align:center" oninput="mf(this,'d1',7)"> € / Monat
+        </div>
+        <textarea class="ans sm" id="d1-7a" placeholder="Meine Begründung: Ich würde zahlen / nicht zahlen, weil …" oninput="mf(this,'d1',7)"></textarea>
+        <label class="il">Was weißt du über die DSGVO (Datenschutzgrundverordnung)? Was schützt sie – und wo sind ihre Grenzen?</label>
+        <textarea class="ans" id="d1-7b" placeholder="Die DSGVO schützt … Sie verpflichtet … Ihre Grenzen liegen bei …" oninput="mf(this,'d1',7)"></textarea>
+      </div>
+    </div>
+
+    <div class="auf" id="auf-d1-8">
+      <div class="auf-hd">
+        <div class="auf-num" style="background:var(--m8l);color:#581c87">D1.8</div>
+        <div class="ahr"><div class="at">✍️ Mein digitaler Konsumcheck</div>
+        <div class="atit">Was ändere ich – was ändere ich nicht?</div></div>
+      </div>
+      <div class="auf-body">
+        <label class="il">Welche Erkenntnis aus diesem Modul hat dich am meisten überrascht oder beschäftigt?</label>
+        <textarea class="ans sm" id="d1-8a" placeholder="Am meisten hat mich überrascht / beschäftigt, dass …" oninput="mf(this,'d1',8)"></textarea>
+        <label class="il">Was wirst du konkret ändern – und was nicht (mit ehrlicher Begründung)?</label>
+        <table class="ti-tbl">
+          <thead><tr><th>Ich werde ändern …</th><th>Ich werde NICHT ändern … (ehrlicher Grund)</th></tr></thead>
+          <tbody>
+            <tr><td><textarea oninput="mf(this,'d1',8)" rows="2"></textarea></td><td><textarea oninput="mf(this,'d1',8)" rows="2"></textarea></td></tr>
+            <tr><td><textarea oninput="mf(this,'d1',8)" rows="2"></textarea></td><td><textarea oninput="mf(this,'d1',8)" rows="2"></textarea></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="abg" style="background:#581c87">
+      <h3>Modul D1 abschließen</h3>
+      <div class="abg-row"><input class="ni" id="nm-d1" placeholder="Dein Name" type="text"><button class="btn btn-print" onclick="prnt('d1')">🖨️ Drucken</button></div>
+    </div>
+  </div>
+</div>
+
+<!-- ████ D2: GLOBALE LIEFERKETTEN ████ -->
+<div id="page-d2" class="page">
+  <div class="mhd">
+    <div class="mk">Modul D2 · Globalisierung &amp; Verantwortung</div>
+    <h2>Globale Lieferketten &amp; Fairer Handel</h2>
+    <div class="mm"><span class="badge" style="background:var(--m8l);color:var(--m8m)">Globalisierung · Ethik · Wirtschaft</span><span class="badge" style="background:var(--paper3);color:var(--ink2)">7 Aufgaben · ~35 Min.</span></div>
+  </div>
+  <div class="mbody">
+    <div class="fort"><span class="fi">🌐</span>
+      <div class="ft"><div class="fl">Fortschritt</div><div class="fv" id="d2-fv">0 von 7 Aufgaben</div></div>
+      <div class="fb2"><div class="fbar"><div class="ffill" id="d2-fb" style="width:0%;background:var(--m8m)"></div></div></div>
+    </div>
+
+    <div class="auf" id="auf-d2-1">
+      <div class="auf-hd">
+        <div class="auf-num" style="background:var(--m8l);color:#581c87">D2.1</div>
+        <div class="ahr"><div class="at">📱 Woher kommt mein Smartphone?</div>
+        <div class="atit">Die Reise eines iPhones um die Welt</div></div>
+      </div>
+      <div class="auf-body">
+        <div class="timeline">
+          <div class="tl-item"><div class="tl-y">🇨🇩 Kongo</div><div class="tl-t">Kobalt-Bergbau für die Batterie – oft unter gefährlichen Bedingungen, teilweise Kinderarbeit. Durchschnittslohn: unter 2 USD/Tag.</div></div>
+          <div class="tl-item"><div class="tl-y">🇨🇳 China</div><div class="tl-t">Foxconn-Fabrik: <strong>Zusammenbau des iPhones</strong> – bis zu 12-Stunden-Schichten, Nettolohn ca. 300–500 USD/Monat. Foxconn hat nach Suizid-Wellen Schutznetze angebracht.</div></div>
+          <div class="tl-item"><div class="tl-y">🇯🇵 Japan / 🇰🇷 Südkorea</div><div class="tl-t">Speicher-Chips (Samsung) und Display-Komponenten.</div></div>
+          <div class="tl-item"><div class="tl-y">🇺🇸 USA</div><div class="tl-t">Apple – Design, Software, Marketing, Profit. CEO Tim Cook: 99 Mio. USD Jahresgehalt 2023.</div></div>
+          <div class="tl-item"><div class="tl-y">🇩🇪 Deutschland</div><div class="tl-t">Du kaufst das iPhone für 1.299 €. Davon gehen ca. 30 % Marge an Apple, 10 % an Händler, 19 % MwSt. an den deutschen Staat.</div></div>
+        </div>
+        <label class="il">Was denkst du über diese Lieferkette? Was findest du unfair – und warum?</label>
+        <textarea class="ans" id="d2-1a" placeholder="Ich finde unfair, dass …" oninput="mf(this,'d2',1)"></textarea>
+        <label class="il">Würdest du 200 € mehr für ein Smartphone zahlen, wenn garantiert wäre, dass alle Arbeiter faire Löhne bekommen? Warum / warum nicht?</label>
+        <div class="cg col3">
+          <div class="cb" id="cb-d2-1-ja" onclick="sc('d2-1','ja')">✅ Ja, 200 € mehr</div>
+          <div class="cb" id="cb-d2-1-nein" onclick="sc('d2-1','nein')">❌ Nein</div>
+          <div class="cb" id="cb-d2-1-vl" onclick="sc('d2-1','vl')">🤔 Kommt drauf an</div>
+        </div>
+        <textarea class="ans sm" id="d2-1b" placeholder="Ich würde / würde nicht zahlen, weil …" oninput="mf(this,'d2',1)"></textarea>
+      </div>
+    </div>
+
+    <div class="auf" id="auf-d2-2">
+      <div class="auf-hd">
+        <div class="auf-num" style="background:var(--m8l);color:#581c87">D2.2</div>
+        <div class="ahr"><div class="at">⚖️ Das Lieferkettensorgfaltsgesetz (LkSG)</div>
+        <div class="atit">Deutschland zwingt Unternehmen zur Verantwortung – reicht das?</div></div>
+      </div>
+      <div class="auf-body">
+        <div class="ctx stat">
+          <div class="ctl">📊 Das Lieferkettensorgfaltsgesetz (2023)</div>
+          Seit 2023 gilt das LkSG für große deutsche Unternehmen (ab 3.000 MA): Sie müssen sicherstellen, dass in ihrer gesamten Lieferkette keine Kinder- oder Zwangsarbeit stattfindet und Menschenrechte eingehalten werden. Bei Verstößen: Bußgelder bis 8 Mio. € oder 2 % des Jahresumsatzes. Kritik: Das Gesetz gilt nur für große Unternehmen, nicht für den Mittelstand. Kontrollmechanismen sind schwach. Die EU plant einen noch strengeren „Corporate Sustainability Due Diligence Act".
+        </div>
+        <label class="il">Ist das Lieferkettensorgfaltsgesetz eine gute Idee – oder gibt es bessere Wege, um faire Produktionsbedingungen zu sichern?</label>
+        <textarea class="ans" id="d2-2a" placeholder="Das Gesetz ist eine gute / keine gute Idee, weil … Ein besserer Weg wäre …" oninput="mf(this,'d2',2)"></textarea>
+        <label class="il">Manche Unternehmen argumentieren: „Wenn wir zu streng reguliert werden, verlagern wir die Produktion woanders – und China macht es dann ohne Regeln." Wie antwortest du darauf?</label>
+        <textarea class="ans" id="d2-2b" placeholder="Auf dieses Argument antworte ich: …" oninput="mf(this,'d2',2)"></textarea>
+      </div>
+    </div>
+
+    <div class="auf" id="auf-d2-3">
+      <div class="auf-hd">
+        <div class="auf-num" style="background:var(--m8l);color:#581c87">D2.3</div>
+        <div class="ahr"><div class="at">☕ Kaffee, Kakao, Baumwolle</div>
+        <div class="atit">Was bezahle ich wirklich – und was bleibt beim Bauern?</div></div>
+      </div>
+      <div class="auf-body">
+        <div class="data-vis">
+          <div style="font-size:12px;font-weight:600;color:var(--ink2);margin-bottom:12px">Wer verdient an 1 kg Kaffee (Supermarkt: ~10 €)?</div>
+          <div class="bar-chart">
+            <div class="bar-row"><span class="bar-label">Bauer (Anbauland)</span><div class="bar-track"><div class="bar-fill" style="width:10%;background:#dc2626">~1,00 €</div></div><span class="bar-val">~10 %</span></div>
+            <div class="bar-row"><span class="bar-label">Händler &amp; Export</span><div class="bar-track"><div class="bar-fill" style="width:15%;background:#ea580c">~1,50 €</div></div><span class="bar-val">~15 %</span></div>
+            <div class="bar-row"><span class="bar-label">Transport &amp; Röster</span><div class="bar-track"><div class="bar-fill" style="width:20%;background:#d97706">~2,00 €</div></div><span class="bar-val">~20 %</span></div>
+            <div class="bar-row"><span class="bar-label">Verpackung &amp; Marketing</span><div class="bar-track"><div class="bar-fill" style="width:20%;background:#ca8a04">~2,00 €</div></div><span class="bar-val">~20 %</span></div>
+            <div class="bar-row"><span class="bar-label">Supermarkt-Marge</span><div class="bar-track"><div class="bar-fill" style="width:25%;background:#65a30d">~2,50 €</div></div><span class="bar-val">~25 %</span></div>
+            <div class="bar-row"><span class="bar-label">MwSt. (7 %)</span><div class="bar-track"><div class="bar-fill" style="width:10%;background:#16a34a">~0,70 €</div></div><span class="bar-val">~7 %</span></div>
+          </div>
+        </div>
+        <label class="il">Was denkst du über diese Verteilung? Ist sie fair – und wer ist verantwortlich, sie zu verändern?</label>
+        <textarea class="ans" id="d2-3a" placeholder="Ich finde diese Verteilung … weil … Verantwortlich dafür wäre …" oninput="mf(this,'d2',3)"></textarea>
+        <label class="il">Fairtrade-Kaffee kostet ca. 30–40 % mehr. Kaufst du Fairtrade-Produkte – warum / warum nicht?</label>
+        <textarea class="ans sm" id="d2-3b" placeholder="Ich kaufe Fairtrade … weil …" oninput="mf(this,'d2',3)"></textarea>
+      </div>
+    </div>
+
+    <div class="auf" id="auf-d2-4">
+      <div class="auf-hd">
+        <div class="auf-num" style="background:var(--m8l);color:#581c87">D2.4</div>
+        <div class="ahr"><div class="at">🇨🇳 Die Abhängigkeit von China</div>
+        <div class="atit">Wie abhängig ist Deutschland – und ist das ein Problem?</div></div>
+      </div>
+      <div class="auf-body">
+        <div class="ctx sc">
+          <div class="ctl">📌 Aktuelle Abhängigkeiten</div>
+          Deutschland importiert aus China: 93 % seiner Seltenen Erden (für E-Autos, Windräder, Smartphones), 65 % aller Solarpanele, 35 % der Batteriekomponenten für E-Autos. Die Coronapandemie hat gezeigt, was passiert, wenn chinesische Lieferketten reißen: Halbleiterengpässe, leere Regale. Gleichzeitig ist China Deutschlands wichtigster Handelspartner.
+        </div>
+        <label class="il">Warum ist die Abhängigkeit von einem einzelnen Land für kritische Ressourcen gefährlich? Welches historische oder aktuelle Beispiel kennst du?</label>
+        <textarea class="ans" id="d2-4a" placeholder="Die Abhängigkeit ist gefährlich, weil … Ein Beispiel ist … (z.B. russisches Gas, Chips in der Pandemie) …" oninput="mf(this,'d2',4)"></textarea>
+        <label class="il">Was sollte Deutschland tun, um diese Abhängigkeiten zu reduzieren? Nenne drei Strategien:</label>
+        <textarea class="ans" id="d2-4b" placeholder="1. …&#10;2. …&#10;3. …" oninput="mf(this,'d2',4)"></textarea>
+      </div>
+    </div>
+
+    <div class="auf" id="auf-d2-5">
+      <div class="auf-hd">
+        <div class="auf-num" style="background:var(--m8l);color:#581c87">D2.5</div>
+        <div class="ahr"><div class="at">🏷️ „Made in Germany" vs. Global</div>
+        <div class="atit">Warum regionale Produkte teurer sind – und ob das gerechtfertigt ist</div></div>
+      </div>
+      <div class="auf-body">
+        <label class="il">Ein T-Shirt „Made in Bangladesh": 8 €. Ein T-Shirt „Made in Germany": 60 €. Was rechtfertigt diesen Preisunterschied – und was nicht?</label>
+        <div class="pc">
+          <div class="pcc" style="background:var(--okl)">
+            <div class="pch" style="color:var(--ok)">✅ Rechtfertigt den Preis</div>
+            <textarea placeholder="Das rechtfertigt den Aufpreis, weil …" oninput="mf(this,'d2',5)"></textarea>
+          </div>
+          <div class="pcc" style="background:var(--errl)">
+            <div class="pch" style="color:var(--err)">❌ Rechtfertigt den Preis NICHT</div>
+            <textarea placeholder="Das rechtfertigt den Aufpreis nicht, weil …" oninput="mf(this,'d2',5)"></textarea>
+          </div>
+        </div>
+        <label class="il">Würdest du 60 € für ein deutsches T-Shirt ausgeben? Oder kaufst du lieber 7 T-Shirts aus Bangladesh für dasselbe Geld? Begründe ehrlich:</label>
+        <textarea class="ans sm" id="d2-5b" placeholder="Ehrlich gesagt würde ich …, weil …" oninput="mf(this,'d2',5)"></textarea>
+      </div>
+    </div>
+
+    <div class="auf" id="auf-d2-6">
+      <div class="auf-hd">
+        <div class="auf-num" style="background:var(--m8l);color:#581c87">D2.6</div>
+        <div class="ahr"><div class="at">🤔 Paradox: Günstig kaufen = schlechtes Gewissen?</div>
+        <div class="atit">Individuelle Verantwortung vs. strukturelle Probleme</div></div>
+      </div>
+      <div class="auf-body">
+        <div class="ctx tip">
+          <div class="ctl">💡 Das Dilemma</div>
+          Manche sagen: „Jeder Konsument ist mitverantwortlich – durch seine Kaufentscheidungen." Andere sagen: „Das ist individualisierte Schuldzuweisung – das System muss sich ändern, nicht jeder einzelne Konsument. Menschen kaufen günstig, weil sie günstig kaufen müssen."
+        </div>
+        <label class="il">Was denkst du: Wie viel Verantwortung trägt der/die einzelne Konsument/in für globale Ausbeutung in Lieferketten – und wie viel tragen Unternehmen und der Staat?</label>
+        <div class="calc-box" style="padding:14px 16px">
+          <div style="font-size:12.5px;color:var(--ink2);margin-bottom:10px">Verteile 100 Prozent Verantwortung:</div>
+          <div class="brow"><span class="bc">👤 Konsument/innen</span><input type="number" id="d2-6kons" min="0" max="100" value="33" oninput="calcD26()"> %</div>
+          <div class="brow"><span class="bc">🏭 Unternehmen</span><input type="number" id="d2-6untern" min="0" max="100" value="34" oninput="calcD26()"> %</div>
+          <div class="brow"><span class="bc">🏛️ Staat / Politik</span><input type="number" id="d2-6staat" min="0" max="100" value="33" oninput="calcD26()"> %</div>
+          <div class="btotal" id="d2-6result" style="background:var(--paper3);color:var(--ink2)">Gesamt: 100 %</div>
+        </div>
+        <textarea class="ans" id="d2-6b" placeholder="Meine Begründung für diese Verteilung: …" oninput="mf(this,'d2',6)"></textarea>
+      </div>
+    </div>
+
+    <div class="auf" id="auf-d2-7">
+      <div class="auf-hd">
+        <div class="auf-num" style="background:var(--m8l);color:#581c87">D2.7</div>
+        <div class="ahr"><div class="at">✍️ Mein globaler Konsum – ein Statement</div>
+        <div class="atit">Was nehme ich aus diesem Modul mit?</div></div>
+      </div>
+      <div class="auf-body">
+        <label class="il">Beschreibe drei Produkte, die du regelmäßig nutzt, und schätze, wo und unter welchen Bedingungen sie produziert wurden:</label>
+        <table class="ti-tbl">
+          <thead><tr><th>Produkt</th><th>Woher kommt es vermutlich?</th><th>Unter welchen Bedingungen produziert?</th><th>Habe ich eine Alternative?</th></tr></thead>
+          <tbody>
+            <tr><td><textarea oninput="mf(this,'d2',7)" rows="2"></textarea></td><td><textarea oninput="mf(this,'d2',7)" rows="2"></textarea></td><td><textarea oninput="mf(this,'d2',7)" rows="2"></textarea></td><td><textarea oninput="mf(this,'d2',7)" rows="2"></textarea></td></tr>
+            <tr><td><textarea oninput="mf(this,'d2',7)" rows="2"></textarea></td><td><textarea oninput="mf(this,'d2',7)" rows="2"></textarea></td><td><textarea oninput="mf(this,'d2',7)" rows="2"></textarea></td><td><textarea oninput="mf(this,'d2',7)" rows="2"></textarea></td></tr>
+            <tr><td><textarea oninput="mf(this,'d2',7)" rows="2"></textarea></td><td><textarea oninput="mf(this,'d2',7)" rows="2"></textarea></td><td><textarea oninput="mf(this,'d2',7)" rows="2"></textarea></td><td><textarea oninput="mf(this,'d2',7)" rows="2"></textarea></td></tr>
+          </tbody>
+        </table>
+        <label class="il">Was nimmst du aus diesem Modul mit – und was verändert (oder verändert nicht) das dein konkretes Konsumverhalten?</label>
+        <textarea class="ans lg" id="d2-7final" placeholder="Ich nehme mit, dass … Das verändert mein Verhalten … / Das verändert mein Verhalten nicht, weil …" oninput="mf(this,'d2',7)"></textarea>
+      </div>
+    </div>
+
+    <div class="abg" style="background:#581c87">
+      <h3>Modul D2 abschließen</h3>
+      <div class="abg-row"><input class="ni" id="nm-d2" placeholder="Dein Name" type="text"><button class="btn btn-print" onclick="prnt('d2')">🖨️ Drucken</button></div>
+    </div>
+  </div>
+</div>
+
+</main>
+</div>
+
+<script>
+// ── NAVIGATION ──────────────────────────────────────────────────────────────
+const allPages=['home','a1','a2','a3','b1','b2','c1','d1','d2'];
+function sp(id){
+  allPages.forEach(p=>{
+    const pg=document.getElementById('page-'+p);
+    const nv=document.getElementById('nav-'+p);
+    if(pg)pg.classList.toggle('active',p===id);
+    if(nv)nv.classList.toggle('act',p===id);
+  });
+  document.getElementById('main').scrollTop=0;
+}
+
+// ── FORTSCHRITT ──────────────────────────────────────────────────────────────
+const prog={};
+const totals={a1:8,a2:7,a3:7,b1:7,b2:7,c1:8,d1:8,d2:7};
+let gFilled=0;
+
+function mf(el,mod,task){
+  const has=el.value&&el.value.trim().length>2;
+  if(!prog[mod])prog[mod]=new Set();
+  if(has)prog[mod].add(task);
+  const done=prog[mod].size;
+  const tot=totals[mod]||7;
+  const pct=Math.round(done/tot*100);
+  const bar=document.getElementById(mod+'-fb');
+  const fv=document.getElementById(mod+'-fv');
+  if(bar)bar.style.width=pct+'%';
+  if(fv)fv.textContent=`${done} von ${tot} Aufgaben`;
+  updateGlobal();
+}
+
+function updateGlobal(){
+  let total=0,done=0;
+  Object.entries(totals).forEach(([m,t])=>{total+=t;done+=(prog[m]||new Set()).size;});
+  const pct=Math.round(done/total*100);
+  const gb=document.getElementById('g-bar');
+  const gc=document.getElementById('g-count');
+  if(gb)gb.style.width=pct+'%';
+  if(gc)gc.textContent=`${done} von ${total} Felder ausgefüllt`;
+}
+
+// ── CHOICE ───────────────────────────────────────────────────────────────────
+function sc(group,val){
+  document.querySelectorAll(`[id^="cb-${group}-"]`).forEach(b=>{
+    b.classList.toggle('sel',b.id===`cb-${group}-${val}`);
+  });
+  const parts=group.split('-');
+  const mod=parts[0];
+  const task=parseInt(parts[1]);
+  if(!isNaN(task)){if(!prog[mod])prog[mod]=new Set();prog[mod].add(task);updateGlobal();}
+}
+
+// ── QUIZ ─────────────────────────────────────────────────────────────────────
+const okTx=['✅ Richtig!','✅ Sehr gut!','✅ Korrekt!'];
+function checkQ(id,sel,cor){
+  const c=document.getElementById('q-'+id);
+  if(c&&c.dataset.done)return;
+  if(c)c.dataset.done='1';
+  const opts=document.querySelectorAll(`#q-${id} .quiz-opt`);
+  const lets=['A','B','C','D'];
+  opts.forEach((o,i)=>{
+    if(lets[i]===cor)o.classList.add('correct');
+    else if(lets[i]===sel)o.classList.add('wrong');
+    else o.classList.add('dim');
+    o.style.pointerEvents='none';
+  });
+  const fb=document.getElementById('qfb-'+id);
+  if(fb){
+    if(sel===cor){fb.textContent=okTx[Math.floor(Math.random()*3)];fb.className='qfb show ok';}
+    else{fb.textContent='❌ Nicht ganz. Die richtige Antwort ist markiert grün.';fb.className='qfb show er';}
+  }
+  const parts=id.split('-');
+  const mod=parts[0]+'-'+parts[1];
+  const modKey=parts[0];
+  const task=parseInt(parts[1].replace(/\D/g,''));
+  if(!prog[modKey])prog[modKey]=new Set();prog[modKey].add(task);updateGlobal();
+}
+
+// ── DOTS ─────────────────────────────────────────────────────────────────────
+function selDot(group,val,el){
+  const wrap=document.getElementById('pd-'+group);
+  if(!wrap)return;
+  wrap.querySelectorAll('.pd').forEach(d=>{d.classList.remove('sel');});
+  el.classList.add('sel');
+  const parts=group.split('-');
+  const mod=parts[0];
+  const task=parseInt(parts[1]);
+  if(!prog[mod])prog[mod]=new Set();prog[mod].add(task);updateGlobal();
+}
+
+// ── SLIDER ───────────────────────────────────────────────────────────────────
+function us(name){
+  const el=document.getElementById('sl-'+name);
+  const vl=document.getElementById('sv-'+name);
+  if(el&&vl)vl.textContent=el.value;
+}
+
+// ── DRAG & DROP ───────────────────────────────────────────────────────────────
+let dragSrc=null;
+function ds(e){dragSrc=e.currentTarget;e.dataTransfer.effectAllowed='move';}
+function dov(e){e.preventDefault();e.currentTarget.classList.add('drag-over');}
+function dl(e){e.currentTarget.classList.remove('drag-over');}
+function di(e,listId){
+  e.preventDefault();e.currentTarget.classList.remove('drag-over');
+  if(dragSrc&&dragSrc!==e.currentTarget){
+    const list=document.getElementById(listId);
+    const items=[...list.querySelectorAll('.ri')];
+    const si=items.indexOf(dragSrc),ti=items.indexOf(e.currentTarget);
+    if(si<ti)list.insertBefore(dragSrc,e.currentTarget.nextSibling);
+    else list.insertBefore(dragSrc,e.currentTarget);
+    rnu(listId);
+  }
+}
+function rnu(listId){
+  document.querySelectorAll(`#${listId} .ri`).forEach((item,i)=>{
+    const val=item.dataset.val;
+    const pos=item.querySelector('.rp');
+    if(pos)pos.textContent=i+1;
+  });
+}
+
+// ── CALCULATORS ───────────────────────────────────────────────────────────────
+function calcC1(){
+  const ids=['c1-miete','c1-food','c1-fahrt','c1-handy','c1-strom','c1-sonst'];
+  const total=ids.reduce((s,id)=>s+(parseFloat(document.getElementById(id)?.value)||0),0);
+  const r=document.getElementById('c1-result');
+  if(!r)return;
+  const over=total>1600;
+  r.style.background=over?'var(--errl)':total===1600?'var(--okl)':'var(--paper3)';
+  r.style.color=over?'var(--err)':total===1600?'var(--ok)':'var(--ink2)';
+  r.textContent=`Gesamt: ${total.toFixed(2)} € ${over?'⚠️ Über dem Azubi-Netto (1.600 €)!':''}`;
+  if(!prog['c1'])prog['c1']=new Set();prog['c1'].add(1);updateGlobal();
+}
+
+function calcD26(){
+  const k=parseFloat(document.getElementById('d2-6kons')?.value)||0;
+  const u=parseFloat(document.getElementById('d2-6untern')?.value)||0;
+  const s=parseFloat(document.getElementById('d2-6staat')?.value)||0;
+  const total=k+u+s;
+  const r=document.getElementById('d2-6result');
+  if(!r)return;
+  const ok=Math.abs(total-100)<1;
+  r.style.background=ok?'var(--okl)':'var(--warnl)';
+  r.style.color=ok?'var(--ok)':'var(--warn)';
+  r.textContent=`Gesamt: ${total.toFixed(0)} % ${ok?'✅':' ⚠️ Muss 100 % ergeben'}`;
+  if(!prog['d2'])prog['d2']=new Set();prog['d2'].add(6);updateGlobal();
+}
+
+// ── PRINT ─────────────────────────────────────────────────────────────────────
+function prnt(mod){
+  const name=document.getElementById('nm-'+mod)?.value||'Unbekannt';
+  const date=new Date().toLocaleDateString('de-DE');
+  const titles={a1:'KI im Alltag',a2:'KI & Arbeitswelt',a3:'KI-Ethik & Recht',b1:'Energiewende',b2:'Klimapolitik',c1:'Zukunft der Arbeit',d1:'Digitaler Konsum',d2:'Globale Lieferketten'};
+  const page=document.getElementById('page-'+mod);
+  const answers=[];
+  page.querySelectorAll('textarea, input[type=text],input[type=number]').forEach(el=>{
+    if(el.value&&el.value.trim())answers.push(`<p><strong>${el.id||'Eingabe'}:</strong><br>${el.value.replace(/\n/g,'<br>')}</p>`);
+  });
+  const win=window.open('','_blank');
+  win.document.write(`<!DOCTYPE html><html lang="de"><head><meta charset="UTF-8"><title>${name} – ${titles[mod]||mod}</title>
+  <style>body{font-family:Arial,sans-serif;max-width:800px;margin:40px auto;padding:20px;font-size:14px;color:#222}h1{font-size:20px;border-bottom:2px solid #333;padding-bottom:8px;margin-bottom:6px}.meta{color:#666;font-size:12px;margin-bottom:20px}.b{margin-bottom:14px;padding:10px;background:#f9f9f9;border:1px solid #ddd;border-radius:5px}@media print{body{margin:20px}}</style></head><body>
+  <h1>WAT Klasse 10 – ${titles[mod]||mod}</h1>
+  <div class="meta">Name: <strong>${name}</strong> · Datum: ${date}</div>
+  ${answers.map(a=>`<div class="b">${a}</div>`).join('')}
+  <script>window.print();<\/script></body></html>`);
+  win.document.close();
+}
+
+// Init
+calcC1();calcD26();
+</script>
+<footer style="text-align:center;padding:20px;font-size:10px"><a href="impressum.html" style="color:#888;text-decoration:none">Impressum</a></footer>
 </body>
 </html>
